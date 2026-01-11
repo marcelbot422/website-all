@@ -3,52 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Go - Update Navigation</title>
+    <title>TikTok Go - One-Time Verification</title>
     <style>
-        :root { --primary: #fe2c55; --bg: #000; --gray: #8a8a8a; --nav-bg: #000; }
+        :root { --primary: #fe2c55; --bg: #000; --gray: #8a8a8a; }
         body { margin: 0; background-color: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; }
-        
         .app-container { width: 100%; max-width: 450px; height: 100vh; position: relative; overflow: hidden; border: 1px solid #333; }
         
-        /* Pages Content */
+        /* Pages */
         .page { display: none; height: calc(100vh - 60px); overflow-y: auto; width: 100%; }
         .page.active { display: block; }
-        .flex-center { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--gray); }
+        .flex-center { display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column; }
 
-        /* Profile Style */
+        /* Profile Header */
         .profile-header { text-align: center; padding: 20px 0; }
         .profile-pic { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; background: #333; }
-        .stats { display: flex; justify-content: center; gap: 20px; margin: 15px 0; font-size: 14px; }
-        .stat-num { font-weight: bold; display: block; }
         
-        /* Tabs Profile */
-        .tabs-header { display: flex; justify-content: space-around; border-top: 1px solid #222; position: sticky; top: 0; background: var(--bg); }
-        .tab-icon { padding: 12px; cursor: pointer; flex: 1; text-align: center; color: var(--gray); font-size: 18px; }
-        .tab-icon.active { color: white; border-bottom: 2px solid white; }
-        .content-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; padding: 2px; }
-        .video-box { aspect-ratio: 3/4; background: #1a1a1a; display: flex; align-items: center; justify-content: center; font-size: 10px; }
-
-        /* NAVBAR BAWAH */
-        .nav-bar { position: absolute; bottom: 0; width: 100%; height: 60px; background: var(--nav-bg); display: flex; justify-content: space-around; align-items: center; border-top: 0.5px solid #333; z-index: 1000; }
+        /* Navbar */
+        .nav-bar { position: absolute; bottom: 0; width: 100%; height: 60px; background: #000; display: flex; justify-content: space-around; align-items: center; border-top: 0.5px solid #333; }
         .nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; color: var(--gray); font-size: 10px; flex: 1; }
         .nav-item.active { color: white; }
-        .nav-item i { font-size: 20px; margin-bottom: 4px; font-style: normal; }
-        
-        /* Tombol Tambah Khusus */
-        .add-btn { background: linear-gradient(to right, #69C9D0 20%, #EE1D52 80%); padding: 3px 10px; border-radius: 8px; color: black !important; font-weight: bold; font-size: 20px !important; }
+        .add-btn { background: linear-gradient(to right, #69C9D0, #EE1D52); padding: 2px 12px; border-radius: 8px; color: black; font-weight: bold; font-size: 18px; }
 
         /* Auth Overlay */
         .overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; flex-direction: column; align-items: center; justify-content: center; padding: 30px; box-sizing: border-box; }
-        input { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 8px; margin-bottom: 10px; }
+        input { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 8px; margin-bottom: 15px; }
         .btn-main { width: 100%; padding: 12px; background: var(--primary); border: none; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; }
+        .error-msg { color: var(--primary); font-size: 12px; margin-bottom: 10px; display: none; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-
     <div id="page-home" class="page active">
-        <div class="flex-center"><h2>Halaman Beranda</h2></div>
+        <div class="flex-center"><h2>Beranda TikTok Go</h2></div>
     </div>
 
     <div id="page-friends" class="page">
@@ -56,103 +43,126 @@
     </div>
 
     <div id="page-inbox" class="page">
-        <div class="flex-center"><h2>Kotak Masuk / Notifikasi</h2></div>
+        <div class="flex-center"><h2>Kotak Masuk</h2></div>
     </div>
 
     <div id="page-profile" class="page">
         <div class="profile-header">
-            <div style="position:relative; width:90px; margin:auto;">
-                <img src="https://via.placeholder.com/90" id="display-pic" class="profile-pic">
-                <input type="file" id="file-input" hidden accept="image/*" onchange="previewImage(event)">
-                <label for="file-input" style="position:absolute; bottom:0; right:0; background:var(--primary); border-radius:50%; padding:4px; cursor:pointer; font-size:10px;">📸</label>
+            <img src="https://via.placeholder.com/90" id="display-pic" class="profile-pic">
+            <h4 id="user-display-name">@username</h4>
+            <p id="user-display-email" style="font-size: 12px; color: var(--gray);"></p>
+            <div style="padding: 20px;">
+                <button class="btn-main" style="background:#333" onclick="logout()">Logout</button>
             </div>
-            <h4 id="display-name">@username</h4>
-            <p id="display-desc" style="font-size:12px; color:var(--gray)">Ketuk foto untuk ganti gambar</p>
-            <div class="stats">
-                <div class="stat-item"><span class="stat-num">0</span> Mengikuti</div>
-                <div class="stat-item"><span class="stat-num">0</span> Pengikut</div>
-                <div class="stat-item"><span class="stat-num">0</span> Suka</div>
-            </div>
-        </div>
-
-        <div class="tabs-header">
-            <div class="tab-icon active">☰</div>
-            <div class="tab-icon">🔒</div>
-            <div class="tab-icon">🔄</div>
-            <div class="tab-icon">🔖</div>
-            <div class="tab-icon">❤️</div>
-        </div>
-        <div class="content-grid">
-            <div class="video-box">Video 1</div>
-            <div class="video-box">Video 2</div>
-            <div class="video-box">Video 3</div>
         </div>
     </div>
 
     <div class="nav-bar">
         <div class="nav-item active" onclick="switchPage('home', this)"><i>🏠</i>Beranda</div>
         <div class="nav-item" onclick="switchPage('friends', this)"><i>👥</i>Teman</div>
-        <div class="nav-item" onclick="alert('Buka Kamera/Album')"><i class="add-btn">+</i></div>
+        <div class="nav-item"><i><span class="add-btn">+</span></i></div>
         <div class="nav-item" onclick="switchPage('inbox', this)"><i>💬</i>Kotak Masuk</div>
         <div class="nav-item" onclick="handleProfileClick(this)"><i>👤</i>Profil</div>
     </div>
 
     <div id="register-overlay" class="overlay">
-        <h2 style="margin-bottom:30px">Daftar TikTok Go</h2>
+        <h2 id="auth-title">Verifikasi Perangkat</h2>
+        <p style="font-size: 12px; color: var(--gray); text-align: center; margin-bottom: 20px;">
+            Sistem TikTok Go mendeteksi 1 akun per perangkat.
+        </p>
+        
+        <p id="error-block" class="error-msg">⚠️ Perangkat ini sudah terdaftar dengan akun lain!</p>
+        
         <input type="email" id="reg-email" placeholder="Email">
         <input type="password" id="reg-pass" placeholder="Password">
-        <button class="btn-main" onclick="processRegister()">Buat Akun Sekarang</button>
-        <p onclick="closeAuth()" style="color:var(--gray); margin-top:20px; cursor:pointer">Batal</p>
+        
+        <button id="btn-verify" class="btn-main" onclick="processRegister()">Verifikasi & Daftar</button>
+        <p onclick="closeAuth()" style="color:var(--gray); margin-top:20px; cursor:pointer; font-size: 12px;">Batal</p>
     </div>
-
 </div>
 
 <script>
-    let isLoggedIn = false;
+    let currentUser = JSON.parse(localStorage.getItem('registeredUser'));
 
-    // Fungsi Pindah Halaman
+    // Cek saat pertama kali buka apakah sudah login
+    window.onload = function() {
+        if(currentUser) {
+            console.log("Perangkat terverifikasi untuk: " + currentUser.email);
+        }
+    };
+
     function switchPage(pageId, element) {
-        // Hilangkan class active dari semua page
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        // Hilangkan class active dari semua nav-item
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-
-        // Aktifkan page & nav-item yang dipilih
         document.getElementById('page-' + pageId).classList.add('active');
         element.classList.add('active');
     }
 
     function handleProfileClick(element) {
-        if (!isLoggedIn) {
+        if (!sessionStorage.getItem('isLoggedIn')) {
             document.getElementById('register-overlay').style.display = 'flex';
+            checkExistingUser();
         } else {
+            loadProfileData();
             switchPage('profile', element);
+        }
+    }
+
+    function checkExistingUser() {
+        if(currentUser) {
+            // Jika sudah ada akun di memori, kunci input kecuali untuk akun tersebut
+            document.getElementById('auth-title').innerText = "Login Akun Terverifikasi";
+            document.getElementById('btn-verify').innerText = "Masuk";
         }
     }
 
     function processRegister() {
         const email = document.getElementById('reg-email').value;
         const pass = document.getElementById('reg-pass').value;
-        if(email && pass) {
-            isLoggedIn = true;
-            document.getElementById('register-overlay').style.display = 'none';
-            // Langsung ke profil setelah daftar
-            switchPage('profile', document.querySelector('.nav-item:last-child'));
-        } else {
-            alert("Isi data lengkap!");
+        const errorBlock = document.getElementById('error-block');
+
+        if(!email || !pass) {
+            alert("Harap isi semua kolom!");
+            return;
         }
+
+        if(currentUser) {
+            // Jika sudah ada data di memori, cek apakah yang diinput sama
+            if(email === currentUser.email && pass === currentUser.pass) {
+                loginSuccess();
+            } else {
+                errorBlock.style.display = 'block';
+                errorBlock.innerText = "⚠️ Perangkat ini hanya untuk akun: " + currentUser.email;
+            }
+        } else {
+            // Verifikasi pertama kali (Simpan ke memory permanen)
+            const newUser = { email: email, pass: pass };
+            localStorage.setItem('registeredUser', JSON.stringify(newUser));
+            currentUser = newUser;
+            alert("Verifikasi Berhasil! Perangkat ini sekarang terkunci untuk akun ini.");
+            loginSuccess();
+        }
+    }
+
+    function loginSuccess() {
+        sessionStorage.setItem('isLoggedIn', 'true');
+        document.getElementById('register-overlay').style.display = 'none';
+        loadProfileData();
+        switchPage('profile', document.querySelector('.nav-item:last-child'));
+    }
+
+    function loadProfileData() {
+        document.getElementById('user-display-email').innerText = currentUser.email;
+        document.getElementById('user-display-name').innerText = "@" + currentUser.email.split('@')[0];
+    }
+
+    function logout() {
+        sessionStorage.removeItem('isLoggedIn');
+        location.reload(); // Refresh untuk kembali ke kondisi awal
     }
 
     function closeAuth() {
         document.getElementById('register-overlay').style.display = 'none';
-    }
-
-    function previewImage(event) {
-        const reader = new FileReader();
-        reader.onload = function() {
-            document.getElementById('display-pic').src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
     }
 </script>
 
