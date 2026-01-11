@@ -3,72 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Go - Akun</title>
+    <title>TikTok Go - Profile Tabs</title>
     <style>
-        :root { --primary: #fe2c55; --bg: #000; --card: #121212; }
+        :root { --primary: #fe2c55; --bg: #000; --card: #121212; --gray: #8a8a8a; }
         body { margin: 0; background-color: var(--bg); color: white; font-family: sans-serif; display: flex; justify-content: center; }
         .app-container { width: 100%; max-width: 450px; height: 100vh; position: relative; overflow-y: auto; border: 1px solid #333; }
         
-        /* Overlay & Form */
+        /* Profile Header */
+        #profile-page { display: none; padding-top: 20px; }
+        .profile-header { text-align: center; padding: 0 20px; }
+        .profile-pic-container { position: relative; width: 90px; height: 90px; margin: 0 auto 10px; }
+        .profile-pic { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #333; border: 1px solid #333; }
+        .upload-label { position: absolute; bottom: 0; right: 0; background: var(--primary); padding: 5px; border-radius: 50%; cursor: pointer; font-size: 10px; }
+        
+        /* Stats Area */
+        .stats { display: flex; justify-content: center; gap: 20px; margin: 15px 0; font-size: 14px; }
+        .stat-item { text-align: center; }
+        .stat-num { font-weight: bold; display: block; }
+
+        /* Tabs System */
+        .tabs-header { display: flex; justify-content: space-around; border-top: 1px solid #222; border-bottom: 1px solid #111; margin-top: 20px; }
+        .tab-icon { padding: 12px; cursor: pointer; flex: 1; text-align: center; color: var(--gray); font-size: 18px; transition: 0.3s; }
+        .tab-icon.active { color: white; border-bottom: 2px solid white; }
+
+        /* Content Grid */
+        .content-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; padding: 2px; display: none; }
+        .content-grid.active { display: grid; }
+        .video-box { aspect-ratio: 3/4; background: #1a1a1a; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #444; }
+
+        /* Auth Overlay */
         .overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 200; padding: 20px; box-sizing: border-box; flex-direction: column; align-items: center; justify-content: center; }
-        .input-box { width: 100%; margin-bottom: 15px; }
-        input, textarea { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 8px; box-sizing: border-box; }
-        
-        /* Profile Page */
-        #profile-page { display: none; padding: 20px; text-align: center; }
-        .profile-pic-container { position: relative; width: 100px; height: 100px; margin: 0 auto 15px; }
-        .profile-pic { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); background: #333; }
-        .upload-label { position: absolute; bottom: 0; right: 0; background: var(--primary); padding: 5px; border-radius: 50%; cursor: pointer; font-size: 12px; }
-        
-        .btn { width: 100%; padding: 12px; background: var(--primary); border: none; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; }
-        .nav-bar { position: fixed; bottom: 0; width: 100%; max-width: 450px; height: 60px; background: #000; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #333; z-index: 100; }
-        
-        /* Video Feed (Placeholder) */
-        .feed { height: 100vh; display: flex; align-items: center; justify-content: center; color: #555; }
+        input { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 8px; margin-bottom: 10px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 12px; background: var(--primary); border: none; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; }
+
+        .nav-bar { position: fixed; bottom: 0; width: 100%; max-width: 450px; height: 55px; background: #000; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #222; z-index: 100; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <div id="feed-page" class="feed">
+    <div id="feed-page" style="height: 100vh; display: flex; align-items: center; justify-content: center; color: #555;">
         <h2>Video Feed TikTok Go</h2>
     </div>
 
     <div id="profile-page">
-        <div class="profile-pic-container">
-            <img src="https://via.placeholder.com/100" id="display-pic" class="profile-pic">
-            <label for="file-input" class="upload-label">📸</label>
-            <input type="file" id="file-input" hidden accept="image/*" onchange="previewImage(event)">
+        <div class="profile-header">
+            <div class="profile-pic-container">
+                <img src="https://via.placeholder.com/100" id="display-pic" class="profile-pic">
+                <label for="file-input" class="upload-label">📸</label>
+                <input type="file" id="file-input" hidden accept="image/*" onchange="previewImage(event)">
+            </div>
+            <h4 id="display-name" style="margin: 5px 0;">@username</h4>
+            <p id="display-desc" style="font-size: 13px; color: #ccc;">Belum ada deskripsi.</p>
+            
+            <div class="stats">
+                <div class="stat-item"><span class="stat-num">0</span> Mengikuti</div>
+                <div class="stat-item"><span class="stat-num">0</span> Pengikut</div>
+                <div class="stat-item"><span class="stat-num">0</span> Suka</div>
+            </div>
+            <button class="btn" style="background:#333; width: 50%; height: 35px; font-size: 12px;" onclick="alert('Fitur Edit Profil')">Edit Profil</button>
         </div>
-        <h3 id="display-name">Nama Pengguna</h3>
-        <p id="display-desc" style="color: #ccc;">Deskripsi akun belum diatur.</p>
-        
-        <div style="margin-top: 20px; text-align: left;">
-            <label>Ubah Nama:</label>
-            <input type="text" id="edit-name" placeholder="Nama baru..." oninput="updateProfile()">
-            <br><br>
-            <label>Ubah Deskripsi:</label>
-            <textarea id="edit-desc" rows="3" placeholder="Deskripsi baru..." oninput="updateProfile()"></textarea>
+
+        <div class="tabs-header">
+            <div class="tab-icon active" onclick="openTab(event, 'tab-video')">☰</div> <div class="tab-icon" onclick="openTab(event, 'tab-private')">🔒</div> <div class="tab-icon" onclick="openTab(event, 'tab-repost')">🔄</div> <div class="tab-icon" onclick="openTab(event, 'tab-save')">🔖</div> <div class="tab-icon" onclick="openTab(event, 'tab-like')">❤️</div> </div>
+
+        <div id="tab-video" class="content-grid active">
+            <div class="video-box">Video 1</div>
+            <div class="video-box">Video 2</div>
         </div>
-        <br>
-        <button class="btn" onclick="logout()">Keluar Akun</button>
-    </div>
+        <div id="tab-private" class="content-grid">
+            <div class="video-box">Video Private 1</div>
+        </div>
+        <div id="tab-repost" class="content-grid">
+            <div class="video-box">Repost 1</div>
+        </div>
+        <div id="tab-save" class="content-grid">
+            <div class="video-box">Saved 1</div>
+        </div>
+        <div id="tab-like" class="content-grid">
+            <div class="video-box">Liked Video 1</div>
+        </div>
+
+        <div style="height: 100px;"></div> </div>
 
     <div id="register-overlay" class="overlay">
-        <h2>Buat Akun TikTok Go</h2>
-        <div class="input-box">
-            <input type="email" id="reg-email" placeholder="Email:">
-        </div>
-        <div class="input-box">
-            <input type="password" id="reg-pass" placeholder="Password:">
-        </div>
-        <button class="btn" onclick="processRegister()">Daftar Sekarang</button>
-        <p style="cursor:pointer; color:#aaa" onclick="closeAuth()">Batal</p>
+        <h2>Daftar TikTok Go</h2>
+        <input type="email" id="reg-email" placeholder="Email">
+        <input type="password" id="reg-pass" placeholder="Password">
+        <button class="btn" onclick="processRegister()">Buat Akun</button>
+        <p onclick="closeAuth()" style="font-size: 12px; margin-top: 15px; color: var(--gray);">Kembali</p>
     </div>
 
     <div class="nav-bar">
         <span onclick="showFeed()" style="cursor:pointer">🏠</span>
-        <span style="font-size: 30px;">+</span>
+        <span style="font-size: 25px;">+</span>
         <span onclick="handleProfileClick()" style="cursor:pointer">👤</span>
     </div>
 </div>
@@ -76,31 +104,30 @@
 <script>
     let isLoggedIn = false;
 
-    // Menangani klik tombol orang
-    function handleProfileClick() {
-        if (!isLoggedIn) {
-            document.getElementById('register-overlay').style.display = 'flex';
-        } else {
-            showProfile();
+    // Fungsi Ganti Tab
+    function openTab(evt, tabName) {
+        let contents = document.getElementsByClassName("content-grid");
+        for (let i = 0; i < contents.length; i++) {
+            contents[i].classList.remove("active");
         }
+        let tabs = document.getElementsByClassName("tab-icon");
+        for (let i = 0; i < tabs.length; i++) {
+            tabs[i].classList.remove("active");
+        }
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
     }
 
-    function closeAuth() {
-        document.getElementById('register-overlay').style.display = 'none';
+    function handleProfileClick() {
+        if (!isLoggedIn) document.getElementById('register-overlay').style.display = 'flex';
+        else showProfile();
     }
 
-    // Sistem Daftar Otomatis
     function processRegister() {
-        const email = document.getElementById('reg-email').value;
-        const pass = document.getElementById('reg-pass').value;
-
-        if(email && pass) {
-            alert("Verifikasi Berhasil! Akun " + email + " telah dibuat.");
+        if(document.getElementById('reg-email').value && document.getElementById('reg-pass').value) {
             isLoggedIn = true;
             document.getElementById('register-overlay').style.display = 'none';
             showProfile();
-        } else {
-            alert("Harap isi email dan password!");
         }
     }
 
@@ -114,30 +141,15 @@
         document.getElementById('feed-page').style.display = 'flex';
     }
 
-    // Update Profil (Nama & Deskripsi)
-    function updateProfile() {
-        const name = document.getElementById('edit-name').value;
-        const desc = document.getElementById('edit-desc').value;
-        
-        if(name) document.getElementById('display-name').innerText = name;
-        if(desc) document.getElementById('display-desc').innerText = desc;
-    }
-
-    // Pilih foto dari album/file
     function previewImage(event) {
         const reader = new FileReader();
         reader.onload = function() {
-            const output = document.getElementById('display-pic');
-            output.src = reader.result;
+            document.getElementById('display-pic').src = reader.result;
         };
         reader.readAsDataURL(event.target.files[0]);
     }
 
-    function logout() {
-        isLoggedIn = false;
-        showFeed();
-        alert("Berhasil keluar.");
-    }
+    function closeAuth() { document.getElementById('register-overlay').style.display = 'none'; }
 </script>
 
 </body>
