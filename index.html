@@ -18,17 +18,9 @@
             radial-gradient(circle at 90% 80%, rgba(0,255,0,0.06) 0%, transparent 25%);
     }
 
-    #matrix {
-        position:fixed; top:0; left:0;
-        width:100%; height:100%;
-        z-index:1; pointer-events:none; opacity:0.5;
-    }
+    #matrix { position:fixed; top:0; left:0; width:100%; height:100%; z-index:1; pointer-events:none; opacity:0.5; }
 
-    .container {
-        position:relative; z-index:10;
-        padding:20px; max-width:1100px; margin:0 auto;
-        text-align:center;
-    }
+    .container { position:relative; z-index:10; padding:20px; max-width:1100px; margin:0 auto; text-align:center; }
 
     h1 {
         font-size:3.8rem; margin:30px 0 10px;
@@ -38,15 +30,10 @@
         text-shadow:0 0 10px #0f0, 0 0 20px #0f0; letter-spacing:4px;
     }
 
-    .status-bar {
-        margin:25px 0; font-size:1.5rem; font-weight:bold;
-    }
-
+    .status-bar { margin:25px 0; font-size:1.5rem; font-weight:bold; }
     .online { color:#00ff41; text-shadow:0 0 15px #00ff41; animation:blink 1.8s infinite; }
 
-    .warning {
-        color:#ff0044; margin:20px 0; font-size:1.3rem;
-    }
+    .warning { color:#ff0044; margin:20px 0; font-size:1.3rem; }
 
     .join-list {
         background:rgba(0,20,0,0.6); border:1px solid #0f0; border-radius:8px;
@@ -54,24 +41,19 @@
         text-align:left;
     }
 
-    .join-list h2 {
-        color:#00ff9d; margin-bottom:15px;
-        border-bottom:1px solid #0f0; padding-bottom:8px;
-    }
+    .join-list h2 { color:#00ff9d; margin-bottom:15px; border-bottom:1px solid #0f0; padding-bottom:8px; }
 
-    .entry {
-        margin:12px 0; padding:12px 15px;
-        border-left:4px solid #00aa00; background:rgba(0,255,0,0.05);
-    }
-
+    .entry { margin:12px 0; padding:12px 15px; border-left:4px solid #00aa00; background:rgba(0,255,0,0.05); }
     .entry span { color:#00ffaa; font-weight:bold; }
 
-    form, #verification {
-        margin:40px auto; max-width:600px;
+    form, #verification, #owner-panel {
+        margin:30px auto; max-width:600px;
         background:rgba(0,0,0,0.7); padding:25px;
         border:1px solid #0f0; border-radius:8px;
         transition:all 0.6s ease;
     }
+
+    #owner-panel { display:none; border-color:#ff00aa; box-shadow:0 0 20px #ff00aa; background:rgba(20,0,10,0.7); }
 
     input, button {
         width:100%; padding:12px; margin:10px 0;
@@ -87,34 +69,22 @@
 
     button:hover { transform:scale(1.03); box-shadow:0 0 15px #0f0; }
 
-    #verification {
-        display:none;
-        border-color:#00ffff;
-        box-shadow:0 0 20px #00ffff;
+    #clear-all-btn {
+        background:linear-gradient(90deg, #cc0000, #990000);
+        margin-top:20px;
     }
 
-    .success-text {
-        color:#00ffff;
-        font-size:1.4rem;
-        margin:15px 0;
-        text-shadow:0 0 10px #00ffff;
-    }
+    #clear-all-btn:hover { box-shadow:0 0 15px #ff0000; }
 
-    .glitch {
-        animation: glitch 2s infinite;
-    }
+    #verification { display:none; border-color:#00ffff; box-shadow:0 0 20px #00ffff; }
 
-    @keyframes rainbow {
-        0%{background-position:0% 50%}
-        50%{background-position:100% 50%}
-        100%{background-position:0% 50%}
-    }
+    .success-text { color:#00ffff; font-size:1.4rem; margin:15px 0; text-shadow:0 0 10px #00ffff; }
+    .glitch { animation: glitch 2s infinite; }
 
-    @keyframes blink {
-        0%,100%{opacity:1}
-        50%{opacity:0.4}
-    }
+    .owner-access { color:#ff00ff; font-size:1.3rem; margin:15px 0; text-shadow:0 0 8px #ff00ff; }
 
+    @keyframes rainbow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
     @keyframes glitch {
         0%   { transform: translate(0); }
         20%  { transform: translate(-2px, 2px); }
@@ -142,14 +112,14 @@
         WHEN ANYTHING IS DEFICIENT ]
     </div>
 
-    <!-- Form Verifikasi -->
+    <!-- Form Registrasi -->
     <form id="joinForm">
         <input type="text" id="nama" placeholder="NAMA" required autocomplete="off">
         <input type="text" id="roblox" placeholder="USERNAME ROBLOX" required autocomplete="off">
         <button type="submit">VERIFY IDENTITY → EXECUTE</button>
     </form>
 
-    <!-- Tampilan setelah verifikasi -->
+    <!-- Verifikasi Sukses -->
     <div id="verification">
         <div class="success-text glitch">[ VERIFICATION SUCCESS ]</div>
         <p>IDENTITY CONFIRMED</p>
@@ -157,7 +127,17 @@
         <p class="success-text" style="font-size:1.8rem; margin-top:25px;">WELCOME, OPERATIVE</p>
     </div>
 
-    <!-- Daftar koneksi (tanpa delete) -->
+    <!-- OWNER PANEL (hanya muncul jika login owner benar) -->
+    <div id="owner-panel">
+        <div class="owner-access glitch">[ OWNER ACCESS GRANTED ]</div>
+        <p style="color:#ffcc00; margin:15px 0;">SYSTEM CONTROL PANEL</p>
+        <button id="clear-all-btn">CLEAR ALL REGISTRATIONS</button>
+        <p style="font-size:0.9rem; color:#888; margin-top:20px;">
+            This action will delete ALL names & roblox usernames permanently.
+        </p>
+    </div>
+
+    <!-- Daftar Koneksi -->
     <div class="join-list">
         <h2>≡ ACCESS LOG / NEW CONNECTIONS ≡</h2>
         <div id="joinList"></div>
@@ -182,12 +162,10 @@ function draw() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = '#0f0';
     ctx.font = fontSize + 'px monospace';
-
     for(let i = 0; i < drops.length; i++) {
         const text = chars.charAt(Math.floor(Math.random() * chars.length));
         ctx.fillText(text, i*fontSize, drops[i]*fontSize);
-        if(drops[i]*fontSize > canvas.height && Math.random() > 0.975)
-            drops[i] = 0;
+        if(drops[i]*fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
         drops[i]++;
     }
 }
@@ -199,17 +177,29 @@ window.addEventListener('resize', () => {
 });
 
 // Data
-let visitorCount = localStorage.getItem('visitorCount') ? 
-                  parseInt(localStorage.getItem('visitorCount')) : 1;
-
+let visitorCount = localStorage.getItem('visitorCount') ? parseInt(localStorage.getItem('visitorCount')) : 1;
 document.getElementById('onlineCount').textContent = visitorCount;
 
 let connections = JSON.parse(localStorage.getItem('connections')) || [];
 
+// Owner Credentials (ubah jika mau)
+const OWNER = {
+    username: "MARCEL",
+    email: "marcelagustiantrisno200808@gmail.com"
+};
+
+// Cek apakah ini owner (dijalankan sekali saat load)
+function checkOwnerAccess() {
+    const savedOwner = localStorage.getItem('ownerVerified');
+    if (savedOwner === 'true') {
+        document.getElementById('owner-panel').style.display = 'block';
+    }
+}
+checkOwnerAccess();
+
 function renderConnections() {
     const list = document.getElementById('joinList');
     list.innerHTML = '';
-
     connections.forEach((conn, index) => {
         const div = document.createElement('div');
         div.className = 'entry';
@@ -224,7 +214,7 @@ function renderConnections() {
 
 renderConnections();
 
-// Verifikasi & hilangkan form
+// Registrasi biasa
 document.getElementById('joinForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -248,6 +238,40 @@ document.getElementById('joinForm').addEventListener('submit', function(e) {
     setTimeout(() => {
         alert('[ ACCESS GRANTED ] → SYSTEM VERIFIED: ' + nama);
     }, 800);
+});
+
+// Sistem Owner: munculkan panel jika input benar
+document.addEventListener('keydown', function(e) {
+    // Tekan tombol tertentu untuk memunculkan prompt owner (contoh: tekan F12 atau kombinasi)
+    // Untuk lebih aman, ganti jadi prompt manual
+    if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+        e.preventDefault(); // optional
+
+        const inputUser = prompt("[ OWNER AUTH ] Enter username:");
+        const inputEmail = prompt("[ OWNER AUTH ] Enter email:");
+
+        if (inputUser === OWNER.username && inputEmail === OWNER.email) {
+            localStorage.setItem('ownerVerified', 'true');
+            document.getElementById('owner-panel').style.display = 'block';
+            alert("[ OWNER ACCESS ] → SYSTEM CONTROL UNLOCKED");
+        } else {
+            alert("[ ACCESS DENIED ] → Unauthorized");
+        }
+    }
+});
+
+// Tombol Clear All (hanya di owner panel)
+document.getElementById('clear-all-btn').addEventListener('click', function() {
+    if (confirm("[ DANGER ] Clear ALL registrations? This cannot be undone!")) {
+        connections = [];
+        localStorage.removeItem('connections');
+        visitorCount = 1;
+        localStorage.setItem('visitorCount', '1');
+        document.getElementById('onlineCount').textContent = '1';
+
+        renderConnections();
+        alert("[ SYSTEM RESET ] → All registrations cleared");
+    }
 });
 </script>
 </body>
