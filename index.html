@@ -3,73 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website HACKERS - MARCEL</title>
+    <title>HACKERS - MARCEL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=VT323&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #000;
-            color: #0f0;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(-45deg, #0f0, #f0f, #00f, #ff0, #f00, #0ff);
+            background-size: 600% 600%;
+            animation: gradientBG 15s ease infinite;
+            color: #fff;
             text-align: center;
-            padding: 50px;
+            overflow: hidden;
+            position: relative;
         }
+
+        @keyframes gradientBG {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+
+        /* Glitch overlay effect */
+        .glitch-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1557683316-973673baf926?w=500') repeat;
+            opacity: 0.07;
+            pointer-events: none;
+            animation: glitch 8s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-5px, 5px); }
+            40% { transform: translate(5px, -5px); }
+            60% { transform: translate(-3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            padding: 80px 20px;
+        }
+
+        h1 {
+            font-family: 'VT323', monospace;
+            font-size: 5rem;
+            margin: 0;
+            text-shadow: 
+                0 0 10px #0f0,
+                0 0 20px #0f0,
+                0 0 40px #f0f,
+                0 0 60px #00f;
+            animation: neonGlow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes neonGlow {
+            from { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0f0, 0 0 40px #0f0; }
+            to   { text-shadow: 0 0 20px #fff, 0 0 30px #ff00de, 0 0 40px #ff00de, 0 0 50px #ff00de; }
+        }
+
         .profile {
-            font-size: 2em;
-            margin-bottom: 20px;
+            font-size: 2.2rem;
+            margin: 20px 0;
+            color: #00ffff;
+            text-shadow: 0 0 15px #00ffff;
         }
-        .name {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
+
         .status {
-            font-size: 1.5em;
-            margin: 10px 0;
+            font-family: 'VT323', monospace;
+            font-size: 2.5rem;
+            margin: 25px 0;
+            letter-spacing: 4px;
         }
+
+        #websiteStatus   { color: #00ff00; text-shadow: 0 0 15px #00ff00; }
+        #playersOnline   { color: #ffff00; text-shadow: 0 0 15px #ffff00; }
+        #securityStatus  { color: #ff00ff; text-shadow: 0 0 15px #ff00ff; }
+
         .error {
-            color: #f00;
+            color: #ff0000 !important;
+            text-shadow: 0 0 20px #ff0000 !important;
+            animation: errorBlink 0.8s infinite;
+        }
+
+        @keyframes errorBlink {
+            50% { opacity: 0.4; }
         }
     </style>
 </head>
 <body>
-    <div class="profile">Profil: HACKERS</div>
-    <div class="name">Nama: MARCEL</div>
-    
-    <div class="status" id="websiteStatus">WEBSITE ONLINE</div>
-    <div class="status" id="playersOnline">PLAYERS ONLINE [0]</div>
-    <div class="status" id="securityStatus">WEBSITE AMAN</div>
+    <div class="glitch-overlay"></div>
+
+    <div class="container">
+        <h1>HACKERS</h1>
+        <div class="profile">Nama: MARCEL</div>
+        
+        <div class="status" id="websiteStatus">[WEBSITE ONLINE]</div>
+        <div class="status" id="playersOnline">[PLAYERS ONLINE 0]</div>
+        <div class="status" id="securityStatus">[WEBSITE AMAN]</div>
+    </div>
 
     <script>
-        // Simulasi players online: Bertambah saat halaman dimuat (untuk demo, gunakan localStorage untuk persistensi sederhana)
-        let players = localStorage.getItem('playersOnline') || 0;
-        players = parseInt(players) + 1;
+        // Players online counter (simulasi +1 setiap load)
+        let players = parseInt(localStorage.getItem('playersOnline') || '0') + 1;
         localStorage.setItem('playersOnline', players);
-        document.getElementById('playersOnline').innerText = `PLAYERS ONLINE [${players}]`;
+        document.getElementById('playersOnline').innerText = `[PLAYERS ONLINE ${players}]`;
 
-        // Simulasi deteksi bug/error: Secara acak untuk demo, atau berdasarkan error JS
-        function checkWebsiteStatus() {
-            // Untuk demo, kita buat kemungkinan error secara acak (10% chance)
-            const random = Math.random();
-            const securityStatus = document.getElementById('securityStatus');
-            if (random < 0.05) {
-                securityStatus.innerText = 'WEBSITE BUG';
-                securityStatus.classList.add('error');
-            } else if (random < 0.1) {
-                securityStatus.innerText = 'WEBSITE ERROR';
-                securityStatus.classList.add('error');
-            } else if (random < 0.15) {
-                securityStatus.innerText = 'WEBSITE ADA KESALAHAN';
-                securityStatus.classList.add('error');
+        // Random security status glitch simulation
+        function checkSecurity() {
+            const rand = Math.random();
+            const el = document.getElementById('securityStatus');
+            el.classList.remove('error');
+
+            if (rand < 0.08) {
+                el.innerText = '[WEBSITE BUG]';
+                el.classList.add('error');
+            } else if (rand < 0.16) {
+                el.innerText = '[WEBSITE ERROR]';
+                el.classList.add('error');
+            } else if (rand < 0.24) {
+                el.innerText = '[WEBSITE ADA KESALAHAN]';
+                el.classList.add('error');
             } else {
-                securityStatus.innerText = 'WEBSITE AMAN';
+                el.innerText = '[WEBSITE AMAN]';
             }
         }
 
-        // Panggil fungsi saat load
-        checkWebsiteStatus();
+        checkSecurity();
 
-        // Simulasi error handling
+        // Tangkap error global
         window.onerror = function() {
-            document.getElementById('securityStatus').innerText = 'WEBSITE ERROR';
-            document.getElementById('securityStatus').classList.add('error');
+            const el = document.getElementById('securityStatus');
+            el.innerText = '[WEBSITE ERROR]';
+            el.classList.add('error');
         };
     </script>
 </body>
