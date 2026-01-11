@@ -146,11 +146,25 @@
       box-shadow: 0 0 30px #00ff88;
     }
 
+    .offline {
+      background: rgba(255,0,0,0.15);
+      color: #ff4444;
+      border: 2px solid #ff4444;
+      box-shadow: 0 0 30px #ff4444;
+    }
+
     .aman {
       background: rgba(0,200,255,0.12);
       color: #00d4ff;
       border: 2px solid #00d4ff;
       box-shadow: 0 0 30px #00d4ff;
+    }
+
+    .error, .bug {
+      background: rgba(255,100,0,0.15);
+      color: #ff8800;
+      border: 2px solid #ff8800;
+      box-shadow: 0 0 30px #ff8800;
     }
 
     footer {
@@ -187,8 +201,8 @@
     </header>
 
     <div class="status-badges">
-      <div class="status online pulse">[WEBSITE ONLINE]</div>
-      <div class="status aman pulse">[WEBSITE AMAN]</div>
+      <div id="online-status" class="status online pulse">[WEBSITE ONLINE]</div>
+      <div id="aman-status" class="status aman pulse">[WEBSITE AMAN]</div>
     </div>
 
     <footer>
@@ -196,7 +210,7 @@
     </footer>
   </div>
 
-  <!-- Matrix Rain tetap jalan -->
+  <!-- Matrix Rain Effect -->
   <script>
     const canvas = document.querySelector('.matrix-rain');
     const ctx = canvas.getContext('2d');
@@ -237,6 +251,95 @@
     }
 
     setInterval(draw, 50);
+  </script>
+
+  <!-- System Status: Online/Offline via GitHub & Browser Events -->
+  <script>
+    const onlineStatusElem = document.getElementById('online-status');
+    const amanStatusElem = document.getElementById('aman-status');
+    const githubStatusUrl = 'https://raw.githubusercontent.com/marcel/hackers-website/main/status.txt'; // GANTI dengan URL raw GitHub mu (buat file status.txt dengan isi "online" atau "offline")
+    const offlinePageUrl = 'https://raw.githubusercontent.com/marcel/hackers-website/main/off.html'; // GANTI dengan URL raw off.html (buat file off.html untuk content offline)
+
+    // Function update status dari GitHub
+    async function checkGithubStatus() {
+      try {
+        const response = await fetch(githubStatusUrl);
+        if (!response.ok) throw new Error('Failed to fetch status');
+        const status = (await response.text()).trim().toLowerCase();
+
+        if (status === 'online') {
+          onlineStatusElem.textContent = '[WEBSITE ONLINE]';
+          onlineStatusElem.classList.add('online');
+          onlineStatusElem.classList.remove('offline');
+          // Tampil content normal (sudah default)
+        } else if (status === 'offline') {
+          onlineStatusElem.textContent = '[WEBSITE OFFLINE]';
+          onlineStatusElem.classList.add('offline');
+          onlineStatusElem.classList.remove('online');
+          // Load content offline dari off.html
+          try {
+            const offResponse = await fetch(offlinePageUrl);
+            const offContent = await offResponse.text();
+            document.querySelector('.container').innerHTML = offContent; // Ganti seluruh container dengan content off.html
+          } catch (e) {
+            console.error('Failed to load offline page:', e);
+          }
+        }
+      } catch (error) {
+        console.error('GitHub status fetch error:', error);
+        onlineStatusElem.textContent = '[WEBSITE OFFLINE]'; // Default ke offline kalau fetch gagal
+        onlineStatusElem.classList.add('offline');
+      }
+    }
+
+    // Browser online/offline events (tambahan untuk user koneksi)
+    window.addEventListener('online', () => {
+      onlineStatusElem.textContent = '[WEBSITE ONLINE]';
+      onlineStatusElem.classList.add('online');
+      onlineStatusElem.classList.remove('offline');
+    });
+
+    window.addEventListener('offline', () => {
+      onlineStatusElem.textContent = '[WEBSITE OFFLINE]';
+      onlineStatusElem.classList.add('offline');
+      onlineStatusElem.classList.remove('online');
+    });
+
+    // Initial check
+    checkGithubStatus();
+    setInterval(checkGithubStatus, 60000); // Check setiap 1 menit untuk update otomatis
+  </script>
+
+  <!-- System Peringatan: Aman/Error/Bug -->
+  <script>
+    // Global error handler untuk deteksi error/bug
+    window.onerror = function(msg, url, line, col, error) {
+      console.error('Error detected:', msg);
+      amanStatusElem.textContent = '[WEBSITE ERROR]';
+      amanStatusElem.classList.add('error');
+      amanStatusElem.classList.remove('aman', 'bug');
+      alert('Peringatan: Website Error! ' + msg); // Peringatan popup
+      return true; // Suppress default error
+    };
+
+    // Simulasi check bug/virus (misal check jika ada script invalid atau error load)
+    try {
+      // Contoh check sederhana: Jika ada variable undefined (simulasi bug)
+      console.log(nonExistentVar); // Ini akan trigger error → ganti ke ERROR
+    } catch (e) {
+      amanStatusElem.textContent = '[WEBSITE BUG]';
+      amanStatusElem.classList.add('bug');
+      amanStatusElem.classList.remove('aman', 'error');
+      alert('Peringatan: Website Bug Detected!'); // Peringatan popup
+    }
+
+    // Untuk "virus": Simulasi check jika ada load external script gagal (misal suspicious)
+    fetch('https://example.com/suspicious.js') // Ganti dengan URL real kalau mau test
+      .then(() => {})
+      .catch(() => {
+        amanStatusElem.textContent = '[WEBSITE BUG]'; // Asumsikan virus-like behavior
+        alert('Peringatan: Potensi Virus/Bug Detected!');
+      });
   </script>
 
 </body>
