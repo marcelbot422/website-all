@@ -15,6 +15,12 @@
       font-family: 'Courier New', Courier, monospace;
       overflow-x: hidden;
       min-height: 100vh;
+      animation: bgPulse 18s infinite alternate;
+    }
+
+    @keyframes bgPulse {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
     }
 
     .container {
@@ -26,6 +32,7 @@
       text-align: center;
     }
 
+    /* Matrix Rain Canvas */
     .matrix-rain {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -34,42 +41,21 @@
       opacity: 0.15;
     }
 
-    header { padding: 20px 0; }
+    /* Header & Glitch */
+    header { padding: 40px 0; }
     .glitch {
       color: #fff;
-      font-size: clamp(2rem, 7vw, 4rem);
+      font-size: clamp(2.5rem, 8vw, 5rem);
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 8px;
       text-shadow: 0 0 10px #0ff, 0 0 40px #f0f;
+      margin-bottom: 10px;
     }
 
-    /* --- PROFILE SECTION --- */
-    .profile-card {
-      margin-bottom: 30px;
-      animation: fadeIn 2s ease-in;
-    }
-
-    .profile-img {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      border: 3px solid #00ff88;
-      box-shadow: 0 0 20px #00ff88;
-      object-fit: cover;
-      margin-bottom: 15px;
-      transition: 0.5s;
-    }
-
-    .profile-img:hover {
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 0 40px #00ffff;
-      border-color: #00ffff;
-    }
-
-    /* --- FORM BOX --- */
+    /* Form Box */
     .form-box {
-      background: rgba(10, 0, 20, 0.85);
+      background: rgba(10, 0, 20, 0.8);
       padding: 40px;
       border: 2px solid #00ff88;
       box-shadow: 0 0 25px rgba(0, 255, 136, 0.3);
@@ -77,7 +63,14 @@
       width: 100%;
       max-width: 450px;
       border-radius: 15px;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(5px);
+    }
+
+    .form-box h2 {
+      margin-bottom: 25px;
+      color: #00ff88;
+      font-size: 1.2rem;
+      letter-spacing: 3px;
     }
 
     input {
@@ -88,8 +81,15 @@
       border: 1px solid #00ffff;
       color: #fff;
       font-family: 'Courier New', Courier, monospace;
-      border-radius: 5px;
+      font-size: 1rem;
       outline: none;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      background: rgba(0, 255, 255, 0.1);
+      box-shadow: 0 0 15px #00ffff;
     }
 
     .btn-daftar {
@@ -103,16 +103,28 @@
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 2px;
-      border-radius: 5px;
       transition: 0.4s;
+      border-radius: 5px;
     }
 
     .btn-daftar:hover {
       box-shadow: 0 0 30px #00ff88;
-      background: #fff;
+      transform: translateY(-3px);
     }
 
-    #web2 { display: none; padding: 50px 20px; }
+    /* Web 2 Section (WhatsApp) */
+    #web2 {
+      display: none; /* Sembunyi di awal */
+      padding: 50px 20px;
+    }
+
+    .wa-card {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 40px;
+      border: 1px solid #25d366;
+      border-radius: 20px;
+      display: inline-block;
+    }
 
     .wa-button {
       display: inline-block;
@@ -122,17 +134,25 @@
       text-decoration: none;
       font-weight: bold;
       border-radius: 50px;
+      font-size: 1.2rem;
       box-shadow: 0 0 20px rgba(37, 211, 102, 0.5);
       transition: 0.3s;
-      border: none;
       cursor: pointer;
+      border: none;
+      font-family: 'Courier New', Courier, monospace;
     }
 
-    footer { margin-top: 50px; opacity: 0.6; font-size: 0.8rem; letter-spacing: 2px; }
+    .wa-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 40px #25d366;
+    }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+    footer {
+      margin-top: 100px;
+      color: #00aaff;
+      font-size: 0.9rem;
+      letter-spacing: 3px;
+      opacity: 0.7;
     }
   </style>
 </head>
@@ -142,18 +162,13 @@
 
   <div class="container">
     <header>
-      <h1 class="glitch">HACKERS</h1>
+      <h1 class="glitch" data-text="HACKERS">HACKERS</h1>
       <div style="color: #00ffff; letter-spacing: 5px; font-weight: bold;">MARCEL</div>
     </header>
 
-    <div class="profile-card">
-      <img src="https://via.placeholder.com/150" alt="Profile" class="profile-img">
-      <h3 style="color: #00ff88; letter-spacing: 3px;">SYSTEM OWNER</h3>
-    </div>
-
     <div id="web1">
       <div class="form-box">
-        <h2 style="margin-bottom: 20px; font-size: 1.1rem; color: #00ffff;">ACCESS VERIFICATION</h2>
+        <h2>ACCESS VERIFICATION</h2>
         <input type="text" id="roblox" placeholder="USERNAME ROBLOX" autocomplete="off">
         <input type="text" id="realname" placeholder="NAMA REAL LIFE" autocomplete="off">
         <button class="btn-daftar" onclick="submitDaftar()">MASUK KE SYSTEM</button>
@@ -161,20 +176,20 @@
     </div>
 
     <div id="web2">
-      <div class="form-box" style="border-color: #25d366;">
-        <h2 style="color: #25d366; margin-bottom: 10px;">AKSES DITERIMA</h2>
-        <p style="margin-bottom: 30px;">Selamat Datang, <span id="user-display" style="color: #00ff88;"></span></p>
+      <div class="wa-card">
+        <h2 style="color: #00ffff; margin-bottom: 10px;">AKSES DITERIMA</h2>
+        <p style="margin-bottom: 30px; opacity: 0.8;">Silahkan join group melalui link di bawah ini:</p>
         <button class="wa-button" onclick="bukaWA()">JOIN WHATSAPP GROUP</button>
-        <br><br>
-        <button onclick="location.reload()" style="background:none; border:none; color:#555; cursor:pointer; font-size:10px;">[ KELUAR ]</button>
       </div>
     </div>
 
-    <footer>WEBSITE • NEW • INDONESIA • 2026</footer>
+    <footer>
+      WEBSITE • NEW • INDONESIA • 2026
+    </footer>
   </div>
 
   <script>
-    // FUNGSI DAFTAR (Tanpa sistem penguncian memori)
+    // FUNGSI DAFTAR
     function submitDaftar() {
       const userRoblox = document.getElementById('roblox').value;
       const userRL = document.getElementById('realname').value;
@@ -184,22 +199,27 @@
         return;
       }
 
-      // Langsung izinkan masuk
-      document.getElementById('user-display').innerText = userRoblox;
+      // Animasi transisi sederhana
       document.getElementById('web1').style.display = 'none';
       document.getElementById('web2').style.display = 'block';
+      
+      console.log("User Terdaftar:", userRoblox, "|", userRL);
     }
 
+    // FUNGSI WHATSAPP (Link Tersembunyi)
     function bukaWA() {
-      window.open("https://chat.whatsapp.com/I2a7i83tseGGTQ6r4x6EU1", "_blank");
+      const secureLink = "https://chat.whatsapp.com/I2a7i83tseGGTQ6r4x6EU1";
+      window.open(secureLink, "_blank");
     }
 
-    // --- MATRIX EFFECT ---
+    // --- MATRIX EFFECT ENGINE ---
     const canvas = document.querySelector('.matrix-rain');
     const ctx = canvas.getContext('2d');
+
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    const chars = '01ABCDEFGHIJKL';
+
+    const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
     const fontSize = 16;
     const columns = canvas.width / fontSize;
     const drops = Array(Math.floor(columns)).fill(1);
@@ -207,16 +227,28 @@
     function drawMatrix() {
       ctx.fillStyle = 'rgba(13, 0, 26, 0.05)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+
       ctx.fillStyle = '#0f0';
       ctx.font = fontSize + 'px monospace';
+
       for (let i = 0; i < drops.length; i++) {
         const text = chars.charAt(Math.floor(Math.random() * chars.length));
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
         drops[i]++;
       }
     }
     setInterval(drawMatrix, 50);
+
+    // Penyesuaian ukuran jika layar di-resize
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
   </script>
+
 </body>
 </html>
