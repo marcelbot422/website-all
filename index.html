@@ -27,10 +27,11 @@
     .container {
         position:relative; z-index:10;
         padding:20px; max-width:1100px; margin:0 auto;
+        text-align:center;
     }
 
     h1 {
-        font-size:3.8rem; text-align:center; margin:30px 0 10px;
+        font-size:3.8rem; margin:30px 0 10px;
         background: linear-gradient(90deg, #00ff00, #00ffaa, #00ffff, #00aaff, #0055ff, #aa00ff);
         -webkit-background-clip:text; -webkit-text-fill-color:transparent;
         background-size:400%; animation:rainbow 8s linear infinite;
@@ -38,18 +39,19 @@
     }
 
     .status-bar {
-        text-align:center; margin:25px 0; font-size:1.5rem; font-weight:bold;
+        margin:25px 0; font-size:1.5rem; font-weight:bold;
     }
 
     .online { color:#00ff41; text-shadow:0 0 15px #00ff41; animation:blink 1.8s infinite; }
 
     .warning {
-        color:#ff0044; margin:15px 0; font-size:1.3rem; text-align:center;
+        color:#ff0044; margin:20px 0; font-size:1.3rem;
     }
 
     .join-list {
         background:rgba(0,20,0,0.6); border:1px solid #0f0; border-radius:8px;
         padding:20px; margin:30px auto; max-width:700px; backdrop-filter:blur(4px);
+        text-align:left;
     }
 
     .join-list h2 {
@@ -64,10 +66,11 @@
 
     .entry span { color:#00ffaa; font-weight:bold; }
 
-    form {
+    form, #verification {
         margin:40px auto; max-width:600px;
         background:rgba(0,0,0,0.7); padding:25px;
         border:1px solid #0f0; border-radius:8px;
+        transition:all 0.6s ease;
     }
 
     input, button {
@@ -84,6 +87,23 @@
 
     button:hover { transform:scale(1.03); box-shadow:0 0 15px #0f0; }
 
+    #verification {
+        display:none;
+        border-color:#00ffff;
+        box-shadow:0 0 20px #00ffff;
+    }
+
+    .success-text {
+        color:#00ffff;
+        font-size:1.4rem;
+        margin:15px 0;
+        text-shadow:0 0 10px #00ffff;
+    }
+
+    .glitch {
+        animation: glitch 2s infinite;
+    }
+
     @keyframes rainbow {
         0%{background-position:0% 50%}
         50%{background-position:100% 50%}
@@ -93,6 +113,15 @@
     @keyframes blink {
         0%,100%{opacity:1}
         50%{opacity:0.4}
+    }
+
+    @keyframes glitch {
+        0%   { transform: translate(0); }
+        20%  { transform: translate(-2px, 2px); }
+        40%  { transform: translate(-2px, -2px); }
+        60%  { transform: translate(2px, 2px); }
+        80%  { transform: translate(2px, -2px); }
+        100% { transform: translate(0); }
     }
 </style>
 </head>
@@ -113,18 +142,26 @@
         WHEN ANYTHING IS DEFICIENT ]
     </div>
 
+    <!-- Form Verifikasi -->
+    <form id="joinForm">
+        <input type="text" id="nama" placeholder="NAMA" required autocomplete="off">
+        <input type="text" id="roblox" placeholder="USERNAME ROBLOX" required autocomplete="off">
+        <button type="submit">VERIFY IDENTITY → EXECUTE</button>
+    </form>
+
+    <!-- Tampilan setelah verifikasi berhasil -->
+    <div id="verification">
+        <div class="success-text glitch">[ VERIFICATION SUCCESS ]</div>
+        <p>IDENTITY CONFIRMED</p>
+        <p>YOU ARE NOW CONNECTED TO THE SYSTEM</p>
+        <p class="success-text" style="font-size:1.8rem; margin-top:25px;">WELCOME, OPERATIVE</p>
+    </div>
+
     <!-- Daftar koneksi -->
     <div class="join-list">
         <h2>≡ ACCESS LOG / NEW CONNECTIONS ≡</h2>
         <div id="joinList"></div>
     </div>
-
-    <!-- Form join (update: tanpa alamat & email) -->
-    <form id="joinForm">
-        <input type="text" id="nama" placeholder="NAMA" required autocomplete="off">
-        <input type="text" id="roblox" placeholder="USERNAME ROBLOX" required autocomplete="off">
-        <button type="submit">EXECUTE → JOIN SYSTEM</button>
-    </form>
 
 </div>
 
@@ -161,7 +198,7 @@ window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
 });
 
-// Visitor & Connection List (localStorage)
+// Data storage (local)
 let visitorCount = localStorage.getItem('visitorCount') ? 
                   parseInt(localStorage.getItem('visitorCount')) : 1;
 
@@ -187,7 +224,7 @@ function renderConnections() {
 
 renderConnections();
 
-// Submit form
+// Verifikasi & hilangkan form
 document.getElementById('joinForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -196,18 +233,24 @@ document.getElementById('joinForm').addEventListener('submit', function(e) {
 
     if(!nama || !roblox) return;
 
+    // Tambah count & simpan data
     visitorCount++;
     localStorage.setItem('visitorCount', visitorCount);
     document.getElementById('onlineCount').textContent = visitorCount;
 
     connections.unshift({ nama, roblox });
-
     localStorage.setItem('connections', JSON.stringify(connections));
     
     renderConnections();
-    this.reset();
 
-    alert('[ ACCESS GRANTED ] → Welcome to the system, ' + nama);
+    // Hilangkan form, tampilkan verifikasi
+    document.getElementById('joinForm').style.display = 'none';
+    document.getElementById('verification').style.display = 'block';
+
+    // Optional: alert kecil
+    setTimeout(() => {
+        alert('[ ACCESS GRANTED ] → SYSTEM VERIFIED: ' + nama);
+    }, 800);
 });
 </script>
 </body>
