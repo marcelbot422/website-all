@@ -40,7 +40,25 @@
 
     header {
       text-align: center;
-      padding: 60px 0 80px;
+      padding: 80px 0 100px;
+    }
+
+    .profile-pic {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #00ff88;
+      box-shadow: 
+        0 0 20px #00ff88,
+        0 0 40px #00ff88,
+        inset 0 0 15px rgba(0,255,136,0.6);
+      margin-bottom: 25px;
+      transition: transform 0.4s ease;
+    }
+
+    .profile-pic:hover {
+      transform: scale(1.08);
     }
 
     .glitch {
@@ -107,11 +125,11 @@
     }
 
     .subtitle {
-      margin-top: 20px;
-      font-size: 1.8rem;
+      margin-top: 15px;
+      font-size: 2rem;
       color: #00ffff;
       text-shadow: 0 0 12px #00ffff;
-      letter-spacing: 5px;
+      letter-spacing: 6px;
     }
 
     .status-badges {
@@ -155,7 +173,7 @@
 
     footer {
       text-align: center;
-      padding: 90px 0 60px;
+      padding: 100px 0 60px;
       color: #00aaff;
       font-size: 1.1rem;
       letter-spacing: 3px;
@@ -182,6 +200,13 @@
 
   <div class="container">
     <header>
+      <!-- Foto Profil (pilih salah satu URL di bawah) -->
+      <img 
+        src="https://thumbs.dreamstime.com/b/anonymous-hacker-dark-hoodie-working-laptop-night-cybercrime-internet-security-threat-concept-mysterious-cyber-attack-415503603.jpg" 
+        alt="Marcel - Anonymous Hacker" 
+        class="profile-pic"
+      />
+      
       <h1 class="glitch" data-text="HACKERS">HACKERS</h1>
       <div class="subtitle">MARCEL</div>
     </header>
@@ -196,7 +221,7 @@
     </footer>
   </div>
 
-  <!-- Matrix Rain Effect (tetap dipertahankan karena keren) -->
+  <!-- Matrix Rain Effect -->
   <script>
     const canvas = document.querySelector('.matrix-rain');
     const ctx = canvas.getContext('2d');
