@@ -1,278 +1,76 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>MARCEL - SYSTEM ONLINE</title>
-
-<style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-        background:#000;
-        color:#0f0;
-        font-family:'Courier New', Courier, monospace;
-        overflow-x:hidden;
-        height:100vh;
-        background-image: 
-            radial-gradient(circle at 10% 20%, rgba(0,255,0,0.08) 0%, transparent 20%),
-            radial-gradient(circle at 90% 80%, rgba(0,255,0,0.06) 0%, transparent 25%);
-    }
-
-    #matrix { position:fixed; top:0; left:0; width:100%; height:100%; z-index:1; pointer-events:none; opacity:0.5; }
-
-    .container { position:relative; z-index:10; padding:20px; max-width:1100px; margin:0 auto; text-align:center; }
-
-    h1 {
-        font-size:3.8rem; margin:30px 0 10px;
-        background: linear-gradient(90deg, #00ff00, #00ffaa, #00ffff, #00aaff, #0055ff, #aa00ff);
-        -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-        background-size:400%; animation:rainbow 8s linear infinite;
-        text-shadow:0 0 10px #0f0, 0 0 20px #0f0; letter-spacing:4px;
-    }
-
-    .status-bar { margin:25px 0; font-size:1.5rem; font-weight:bold; }
-    .online { color:#00ff41; text-shadow:0 0 15px #00ff41; animation:blink 1.8s infinite; }
-
-    .warning { color:#ff0044; margin:20px 0; font-size:1.3rem; }
-
-    .join-list {
-        background:rgba(0,20,0,0.6); border:1px solid #0f0; border-radius:8px;
-        padding:20px; margin:30px auto; max-width:700px; backdrop-filter:blur(4px);
-        text-align:left;
-    }
-
-    .join-list h2 { color:#00ff9d; margin-bottom:15px; border-bottom:1px solid #0f0; padding-bottom:8px; }
-
-    .entry { margin:12px 0; padding:12px 15px; border-left:4px solid #00aa00; background:rgba(0,255,0,0.05); }
-    .entry span { color:#00ffaa; font-weight:bold; }
-
-    form, #verification, #owner-panel {
-        margin:30px auto; max-width:600px;
-        background:rgba(0,0,0,0.7); padding:25px;
-        border:1px solid #0f0; border-radius:8px;
-        transition:all 0.6s ease;
-    }
-
-    #owner-panel { display:none; border-color:#ff00aa; box-shadow:0 0 20px #ff00aa; background:rgba(20,0,10,0.7); }
-
-    input, button {
-        width:100%; padding:12px; margin:10px 0;
-        font-family:'Courier New', monospace; font-size:1.1rem;
-        background:#001100; color:#0f0; border:1px solid #0f0; border-radius:4px;
-    }
-
-    button {
-        background:linear-gradient(90deg, #00cc00, #009900);
-        color:white; border:none; cursor:pointer; font-weight:bold;
-        transition:all 0.3s;
-    }
-
-    button:hover { transform:scale(1.03); box-shadow:0 0 15px #0f0; }
-
-    #clear-all-btn {
-        background:linear-gradient(90deg, #cc0000, #990000);
-        margin-top:20px;
-    }
-
-    #clear-all-btn:hover { box-shadow:0 0 15px #ff0000; }
-
-    #verification { display:none; border-color:#00ffff; box-shadow:0 0 20px #00ffff; }
-
-    .success-text { color:#00ffff; font-size:1.4rem; margin:15px 0; text-shadow:0 0 10px #00ffff; }
-    .glitch { animation: glitch 2s infinite; }
-
-    .owner-access { color:#ff00ff; font-size:1.3rem; margin:15px 0; text-shadow:0 0 8px #ff00ff; }
-
-    @keyframes rainbow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
-    @keyframes glitch {
-        0%   { transform: translate(0); }
-        20%  { transform: translate(-2px, 2px); }
-        40%  { transform: translate(-2px, -2px); }
-        60%  { transform: translate(2px, 2px); }
-        80%  { transform: translate(2px, -2px); }
-        100% { transform: translate(0); }
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website HACKERS - MARCEL</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #000;
+            color: #0f0;
+            text-align: center;
+            padding: 50px;
+        }
+        .profile {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .name {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        .status {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+        .error {
+            color: #f00;
+        }
+    </style>
 </head>
 <body>
-
-<canvas id="matrix"></canvas>
-
-<div class="container">
-
-    <h1>MARCEL</h1>
-
-    <div class="status-bar">
-        [ SYSTEM ONLINE <span class="online" id="onlineCount">1</span> ]
-    </div>
-
-    <div class="warning">
-        [ THIS WEBSITE IS WORKING WELL AND WE WILL UPDATE IT SOON<br>
-        WHEN ANYTHING IS DEFICIENT ]
-    </div>
-
-    <!-- Form Registrasi -->
-    <form id="joinForm">
-        <input type="text" id="nama" placeholder="NAMA" required autocomplete="off">
-        <input type="text" id="roblox" placeholder="USERNAME ROBLOX" required autocomplete="off">
-        <button type="submit">VERIFY IDENTITY → EXECUTE</button>
-    </form>
-
-    <!-- Verifikasi Sukses -->
-    <div id="verification">
-        <div class="success-text glitch">[ VERIFICATION SUCCESS ]</div>
-        <p>IDENTITY CONFIRMED</p>
-        <p>YOU ARE NOW CONNECTED TO THE SYSTEM</p>
-        <p class="success-text" style="font-size:1.8rem; margin-top:25px;">WELCOME, OPERATIVE</p>
-    </div>
-
-    <!-- OWNER PANEL (hanya muncul jika login owner benar) -->
-    <div id="owner-panel">
-        <div class="owner-access glitch">[ OWNER ACCESS GRANTED ]</div>
-        <p style="color:#ffcc00; margin:15px 0;">SYSTEM CONTROL PANEL</p>
-        <button id="clear-all-btn">CLEAR ALL REGISTRATIONS</button>
-        <p style="font-size:0.9rem; color:#888; margin-top:20px;">
-            This action will delete ALL names & roblox usernames permanently.
-        </p>
-    </div>
-
-    <!-- Daftar Koneksi -->
-    <div class="join-list">
-        <h2>≡ ACCESS LOG / NEW CONNECTIONS ≡</h2>
-        <div id="joinList"></div>
-    </div>
-
-</div>
-
-<script>
-// Matrix Rain
-const canvas = document.getElementById('matrix');
-const ctx = canvas.getContext('2d');
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
-
-const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*';
-const fontSize = 14;
-const columns = canvas.width / fontSize;
-const drops = Array(Math.floor(columns)).fill(1);
-
-function draw() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#0f0';
-    ctx.font = fontSize + 'px monospace';
-    for(let i = 0; i < drops.length; i++) {
-        const text = chars.charAt(Math.floor(Math.random() * chars.length));
-        ctx.fillText(text, i*fontSize, drops[i]*fontSize);
-        if(drops[i]*fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-        drops[i]++;
-    }
-}
-setInterval(draw, 40);
-
-window.addEventListener('resize', () => {
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-});
-
-// Data
-let visitorCount = localStorage.getItem('visitorCount') ? parseInt(localStorage.getItem('visitorCount')) : 1;
-document.getElementById('onlineCount').textContent = visitorCount;
-
-let connections = JSON.parse(localStorage.getItem('connections')) || [];
-
-// Owner Credentials (ubah jika mau)
-const OWNER = {
-    username: "MARCEL",
-    email: "marcelagustiantrisno200808@gmail.com"
-};
-
-// Cek apakah ini owner (dijalankan sekali saat load)
-function checkOwnerAccess() {
-    const savedOwner = localStorage.getItem('ownerVerified');
-    if (savedOwner === 'true') {
-        document.getElementById('owner-panel').style.display = 'block';
-    }
-}
-checkOwnerAccess();
-
-function renderConnections() {
-    const list = document.getElementById('joinList');
-    list.innerHTML = '';
-    connections.forEach((conn, index) => {
-        const div = document.createElement('div');
-        div.className = 'entry';
-        div.innerHTML = `
-            <strong>#${index+1}</strong> CONNECTION ESTABLISHED<br>
-            <span>NAMA:</span> ${conn.nama}<br>
-            <span>ROBLOX:</span> ${conn.roblox}
-        `;
-        list.appendChild(div);
-    });
-}
-
-renderConnections();
-
-// Registrasi biasa
-document.getElementById('joinForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+    <div class="profile">Profil: HACKERS</div>
+    <div class="name">Nama: MARCEL</div>
     
-    const nama = document.getElementById('nama').value.trim();
-    const roblox = document.getElementById('roblox').value.trim();
+    <div class="status" id="websiteStatus">WEBSITE ONLINE</div>
+    <div class="status" id="playersOnline">PLAYERS ONLINE [0]</div>
+    <div class="status" id="securityStatus">WEBSITE AMAN</div>
 
-    if(!nama || !roblox) return;
+    <script>
+        // Simulasi players online: Bertambah saat halaman dimuat (untuk demo, gunakan localStorage untuk persistensi sederhana)
+        let players = localStorage.getItem('playersOnline') || 0;
+        players = parseInt(players) + 1;
+        localStorage.setItem('playersOnline', players);
+        document.getElementById('playersOnline').innerText = `PLAYERS ONLINE [${players}]`;
 
-    visitorCount++;
-    localStorage.setItem('visitorCount', visitorCount);
-    document.getElementById('onlineCount').textContent = visitorCount;
-
-    connections.unshift({ nama, roblox });
-    localStorage.setItem('connections', JSON.stringify(connections));
-    
-    renderConnections();
-
-    document.getElementById('joinForm').style.display = 'none';
-    document.getElementById('verification').style.display = 'block';
-
-    setTimeout(() => {
-        alert('[ ACCESS GRANTED ] → SYSTEM VERIFIED: ' + nama);
-    }, 800);
-});
-
-// Sistem Owner: munculkan panel jika input benar
-document.addEventListener('keydown', function(e) {
-    // Tekan tombol tertentu untuk memunculkan prompt owner (contoh: tekan F12 atau kombinasi)
-    // Untuk lebih aman, ganti jadi prompt manual
-    if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-        e.preventDefault(); // optional
-
-        const inputUser = prompt("[ OWNER AUTH ] Enter username:");
-        const inputEmail = prompt("[ OWNER AUTH ] Enter email:");
-
-        if (inputUser === OWNER.username && inputEmail === OWNER.email) {
-            localStorage.setItem('ownerVerified', 'true');
-            document.getElementById('owner-panel').style.display = 'block';
-            alert("[ OWNER ACCESS ] → SYSTEM CONTROL UNLOCKED");
-        } else {
-            alert("[ ACCESS DENIED ] → Unauthorized");
+        // Simulasi deteksi bug/error: Secara acak untuk demo, atau berdasarkan error JS
+        function checkWebsiteStatus() {
+            // Untuk demo, kita buat kemungkinan error secara acak (10% chance)
+            const random = Math.random();
+            const securityStatus = document.getElementById('securityStatus');
+            if (random < 0.05) {
+                securityStatus.innerText = 'WEBSITE BUG';
+                securityStatus.classList.add('error');
+            } else if (random < 0.1) {
+                securityStatus.innerText = 'WEBSITE ERROR';
+                securityStatus.classList.add('error');
+            } else if (random < 0.15) {
+                securityStatus.innerText = 'WEBSITE ADA KESALAHAN';
+                securityStatus.classList.add('error');
+            } else {
+                securityStatus.innerText = 'WEBSITE AMAN';
+            }
         }
-    }
-});
 
-// Tombol Clear All (hanya di owner panel)
-document.getElementById('clear-all-btn').addEventListener('click', function() {
-    if (confirm("[ DANGER ] Clear ALL registrations? This cannot be undone!")) {
-        connections = [];
-        localStorage.removeItem('connections');
-        visitorCount = 1;
-        localStorage.setItem('visitorCount', '1');
-        document.getElementById('onlineCount').textContent = '1';
+        // Panggil fungsi saat load
+        checkWebsiteStatus();
 
-        renderConnections();
-        alert("[ SYSTEM RESET ] → All registrations cleared");
-    }
-});
-</script>
+        // Simulasi error handling
+        window.onerror = function() {
+            document.getElementById('securityStatus').innerText = 'WEBSITE ERROR';
+            document.getElementById('securityStatus').classList.add('error');
+        };
+    </script>
 </body>
 </html>
