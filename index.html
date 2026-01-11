@@ -3,178 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Go - Daftar Akun</title>
+    <title>TikTok Go - Akun</title>
     <style>
-        body {
-            margin: 0;
-            background-color: #000;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-        }
-        .app-container {
-            width: 100%;
-            max-width: 450px;
-            height: 100vh;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #333;
-            background-color: #000;
-        }
-
-        /* Video Area */
-        .video-card {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #111;
-        }
-
-        /* Overlay Form Daftar */
-        #auth-overlay {
-            display: none; /* Tersembunyi secara default */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 100;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .auth-form {
-            width: 100%;
-            background: #111;
-            padding: 30px;
-            border-radius: 12px;
-            border: 1px solid #333;
-        }
-
-        .auth-form h2 {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 14px;
-            color: #ccc;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 4px;
-            border: 1px solid #444;
-            background: #222;
-            color: white;
-            box-sizing: border-box;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 12px;
-            background-color: #fe2c55; /* Warna khas TikTok */
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .btn-close {
-            background: none;
-            color: #aaa;
-            border: none;
-            margin-top: 15px;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
-        /* Sidebar & Info (Sama seperti sebelumnya) */
-        .sidebar { position: absolute; bottom: 80px; right: 15px; display: flex; flex-direction: column; gap: 20px; text-align: center; }
-        .video-info { position: absolute; bottom: 80px; left: 15px; width: 70%; }
-        .navbar { position: absolute; bottom: 0; width: 100%; height: 60px; background: black; display: flex; justify-content: space-around; align-items: center; border-top: 0.5px solid #333; }
-        .nav-item { cursor: pointer; font-size: 20px; }
+        :root { --primary: #fe2c55; --bg: #000; --card: #121212; }
+        body { margin: 0; background-color: var(--bg); color: white; font-family: sans-serif; display: flex; justify-content: center; }
+        .app-container { width: 100%; max-width: 450px; height: 100vh; position: relative; overflow-y: auto; border: 1px solid #333; }
+        
+        /* Overlay & Form */
+        .overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 200; padding: 20px; box-sizing: border-box; flex-direction: column; align-items: center; justify-content: center; }
+        .input-box { width: 100%; margin-bottom: 15px; }
+        input, textarea { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 8px; box-sizing: border-box; }
+        
+        /* Profile Page */
+        #profile-page { display: none; padding: 20px; text-align: center; }
+        .profile-pic-container { position: relative; width: 100px; height: 100px; margin: 0 auto 15px; }
+        .profile-pic { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); background: #333; }
+        .upload-label { position: absolute; bottom: 0; right: 0; background: var(--primary); padding: 5px; border-radius: 50%; cursor: pointer; font-size: 12px; }
+        
+        .btn { width: 100%; padding: 12px; background: var(--primary); border: none; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; }
+        .nav-bar { position: fixed; bottom: 0; width: 100%; max-width: 450px; height: 60px; background: #000; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #333; z-index: 100; }
+        
+        /* Video Feed (Placeholder) */
+        .feed { height: 100vh; display: flex; align-items: center; justify-content: center; color: #555; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <div class="video-card">
-        <p>Video Sedang Memuat...</p>
+    <div id="feed-page" class="feed">
+        <h2>Video Feed TikTok Go</h2>
     </div>
 
-    <div class="video-info">
-        <div style="font-weight:bold">@tiktok_go_admin</div>
-        <div style="font-size:14px">Klik ikon profil (👤) untuk daftar akun baru!</div>
-    </div>
-
-    <div class="sidebar">
-        <span>❤️</span>
-        <span>💬</span>
-    </div>
-
-    <div class="navbar">
-        <span class="nav-item">🏠</span>
-        <span class="nav-item">🔍</span>
-        <span class="nav-item" style="font-size: 30px;">+</span>
-        <span class="nav-item">📩</span>
-        <span class="nav-item" onclick="toggleAuth()">👤</span> </div>
-
-    <div id="auth-overlay">
-        <div class="auth-form">
-            <h2>Daftar TikTok Go</h2>
-            <form onsubmit="handleSignup(event)">
-                <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" id="email" placeholder="Masukkan email" required>
-                </div>
-                <div class="input-group">
-                    <label>Password</label>
-                    <input type="password" id="password" placeholder="Buat password" required>
-                </div>
-                <button type="submit" class="btn-submit">Buat Akun</button>
-            </form>
-            <center><button class="btn-close" onclick="toggleAuth()">Batal</button></center>
+    <div id="profile-page">
+        <div class="profile-pic-container">
+            <img src="https://via.placeholder.com/100" id="display-pic" class="profile-pic">
+            <label for="file-input" class="upload-label">📸</label>
+            <input type="file" id="file-input" hidden accept="image/*" onchange="previewImage(event)">
         </div>
+        <h3 id="display-name">Nama Pengguna</h3>
+        <p id="display-desc" style="color: #ccc;">Deskripsi akun belum diatur.</p>
+        
+        <div style="margin-top: 20px; text-align: left;">
+            <label>Ubah Nama:</label>
+            <input type="text" id="edit-name" placeholder="Nama baru..." oninput="updateProfile()">
+            <br><br>
+            <label>Ubah Deskripsi:</label>
+            <textarea id="edit-desc" rows="3" placeholder="Deskripsi baru..." oninput="updateProfile()"></textarea>
+        </div>
+        <br>
+        <button class="btn" onclick="logout()">Keluar Akun</button>
+    </div>
+
+    <div id="register-overlay" class="overlay">
+        <h2>Buat Akun TikTok Go</h2>
+        <div class="input-box">
+            <input type="email" id="reg-email" placeholder="Email:">
+        </div>
+        <div class="input-box">
+            <input type="password" id="reg-pass" placeholder="Password:">
+        </div>
+        <button class="btn" onclick="processRegister()">Daftar Sekarang</button>
+        <p style="cursor:pointer; color:#aaa" onclick="closeAuth()">Batal</p>
+    </div>
+
+    <div class="nav-bar">
+        <span onclick="showFeed()" style="cursor:pointer">🏠</span>
+        <span style="font-size: 30px;">+</span>
+        <span onclick="handleProfileClick()" style="cursor:pointer">👤</span>
     </div>
 </div>
 
 <script>
-    // Fungsi untuk memunculkan/menutup form daftar
-    function toggleAuth() {
-        const overlay = document.getElementById('auth-overlay');
-        if (overlay.style.display === 'flex') {
-            overlay.style.display = 'none';
+    let isLoggedIn = false;
+
+    // Menangani klik tombol orang
+    function handleProfileClick() {
+        if (!isLoggedIn) {
+            document.getElementById('register-overlay').style.display = 'flex';
         } else {
-            overlay.style.display = 'flex';
+            showProfile();
         }
     }
 
-    // Fungsi saat tombol daftar diklik
-    function handleSignup(event) {
-        event.preventDefault();
-        const email = document.getElementById('email').value;
-        const pass = document.getElementById('password').value;
+    function closeAuth() {
+        document.getElementById('register-overlay').style.display = 'none';
+    }
 
-        // Simulasi pendaftaran
-        alert("Pendaftaran Berhasil!\nEmail: " + email + "\nSelamat bergabung di TikTok Go!");
-        toggleAuth();
+    // Sistem Daftar Otomatis
+    function processRegister() {
+        const email = document.getElementById('reg-email').value;
+        const pass = document.getElementById('reg-pass').value;
+
+        if(email && pass) {
+            alert("Verifikasi Berhasil! Akun " + email + " telah dibuat.");
+            isLoggedIn = true;
+            document.getElementById('register-overlay').style.display = 'none';
+            showProfile();
+        } else {
+            alert("Harap isi email dan password!");
+        }
+    }
+
+    function showProfile() {
+        document.getElementById('feed-page').style.display = 'none';
+        document.getElementById('profile-page').style.display = 'block';
+    }
+
+    function showFeed() {
+        document.getElementById('profile-page').style.display = 'none';
+        document.getElementById('feed-page').style.display = 'flex';
+    }
+
+    // Update Profil (Nama & Deskripsi)
+    function updateProfile() {
+        const name = document.getElementById('edit-name').value;
+        const desc = document.getElementById('edit-desc').value;
+        
+        if(name) document.getElementById('display-name').innerText = name;
+        if(desc) document.getElementById('display-desc').innerText = desc;
+    }
+
+    // Pilih foto dari album/file
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const output = document.getElementById('display-pic');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    function logout() {
+        isLoggedIn = false;
+        showFeed();
+        alert("Berhasil keluar.");
     }
 </script>
 
