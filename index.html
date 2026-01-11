@@ -60,11 +60,33 @@
     }
 
     .entry {
-        margin:12px 0; padding:10px;
+        margin:12px 0; padding:12px 15px;
         border-left:4px solid #00aa00; background:rgba(0,255,0,0.05);
+        display:flex; justify-content:space-between; align-items:center;
+        flex-wrap:wrap; gap:10px;
+    }
+
+    .entry-info {
+        flex:1;
     }
 
     .entry span { color:#00ffaa; font-weight:bold; }
+
+    .delete-btn {
+        background:#800000;
+        color:#ffcccc;
+        border:none;
+        padding:6px 12px;
+        border-radius:4px;
+        cursor:pointer;
+        font-size:0.9rem;
+        transition:all 0.2s;
+    }
+
+    .delete-btn:hover {
+        background:#b30000;
+        box-shadow:0 0 10px #ff0000;
+    }
 
     form, #verification {
         margin:40px auto; max-width:600px;
@@ -149,7 +171,7 @@
         <button type="submit">VERIFY IDENTITY → EXECUTE</button>
     </form>
 
-    <!-- Tampilan setelah verifikasi berhasil -->
+    <!-- Tampilan setelah verifikasi -->
     <div id="verification">
         <div class="success-text glitch">[ VERIFICATION SUCCESS ]</div>
         <p>IDENTITY CONFIRMED</p>
@@ -157,7 +179,7 @@
         <p class="success-text" style="font-size:1.8rem; margin-top:25px;">WELCOME, OPERATIVE</p>
     </div>
 
-    <!-- Daftar koneksi -->
+    <!-- Daftar koneksi dengan tombol delete -->
     <div class="join-list">
         <h2>≡ ACCESS LOG / NEW CONNECTIONS ≡</h2>
         <div id="joinList"></div>
@@ -198,7 +220,7 @@ window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
 });
 
-// Data storage (local)
+// Data
 let visitorCount = localStorage.getItem('visitorCount') ? 
                   parseInt(localStorage.getItem('visitorCount')) : 1;
 
@@ -211,14 +233,35 @@ function renderConnections() {
     list.innerHTML = '';
 
     connections.forEach((conn, index) => {
-        const div = document.createElement('div');
-        div.className = 'entry';
-        div.innerHTML = `
-            <strong>#${index+1}</strong> CONNECTION ESTABLISHED<br>
-            <span>NAMA:</span> ${conn.nama}<br>
-            <span>ROBLOX:</span> ${conn.roblox}
+        const entry = document.createElement('div');
+        entry.className = 'entry';
+        entry.innerHTML = `
+            <div class="entry-info">
+                <strong>#${index+1}</strong> CONNECTION ESTABLISHED<br>
+                <span>NAMA:</span> ${conn.nama}<br>
+                <span>ROBLOX:</span> ${conn.roblox}
+            </div>
+            <button class="delete-btn" data-index="${index}">DELETE</button>
         `;
-        list.appendChild(div);
+        list.appendChild(entry);
+    });
+
+    // Tambah event listener untuk tombol delete
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const idx = parseInt(this.getAttribute('data-index'));
+            if(confirm('[ WARNING ] Delete connection #' + (idx+1) + ' ?')) {
+                connections.splice(idx, 1);
+                localStorage.setItem('connections', JSON.stringify(connections));
+                
+                // Optional: kurangi counter jika mau (sesuai kebutuhan)
+                // visitorCount = Math.max(1, visitorCount - 1);
+                // localStorage.setItem('visitorCount', visitorCount);
+                // document.getElementById('onlineCount').textContent = visitorCount;
+
+                renderConnections();
+            }
+        });
     });
 }
 
@@ -233,7 +276,6 @@ document.getElementById('joinForm').addEventListener('submit', function(e) {
 
     if(!nama || !roblox) return;
 
-    // Tambah count & simpan data
     visitorCount++;
     localStorage.setItem('visitorCount', visitorCount);
     document.getElementById('onlineCount').textContent = visitorCount;
@@ -243,11 +285,9 @@ document.getElementById('joinForm').addEventListener('submit', function(e) {
     
     renderConnections();
 
-    // Hilangkan form, tampilkan verifikasi
     document.getElementById('joinForm').style.display = 'none';
     document.getElementById('verification').style.display = 'block';
 
-    // Optional: alert kecil
     setTimeout(() => {
         alert('[ ACCESS GRANTED ] → SYSTEM VERIFIED: ' + nama);
     }, 800);
