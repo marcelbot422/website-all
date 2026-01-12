@@ -3,160 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WEBSITE MARCEL | Official</title>
+    <title>MARCEL | Community & Hacker</title>
     <style>
-        /* Dasar & Tema Gelap */
+        :root {
+            --primary: #00ff00;
+            --accent: #ff00ff;
+            --bg: #050505;
+            --rgb-glow: 0 0 15px rgba(0, 255, 0, 0.5);
+        }
+
         body {
-            background-color: #0a0a0a;
-            color: #00ff00;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            overflow: hidden;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        /* Bingkai Bersinar (RGB Border) */
-        .container {
-            position: relative;
-            width: 90%;
+        /* Background Hacker Warna-Warni */
+        .matrix-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, #050505, #0a1a0a, #1a0a1a);
+            z-index: -1;
+            opacity: 0.8;
+        }
+
+        /* Container Utama dengan Border Berkilau */
+        .main-app {
             max-width: 500px;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 30px;
-            border-radius: 15px;
+            margin: 0 auto;
+            min-height: 100vh;
+            border-left: 2px solid var(--primary);
+            border-right: 2px solid var(--primary);
+            box-shadow: 0 0 30px var(--primary);
+            background: rgba(0,0,0,0.85);
+            padding-bottom: 70px;
+        }
+
+        header {
             text-align: center;
-            border: 2px solid #00ff00;
-            box-shadow: 0 0 20px #00ff00, inset 0 0 10px #00ff00;
-            animation: borderGlow 5s infinite alternate;
+            padding: 20px;
+            border-bottom: 1px solid var(--accent);
+            animation: rgbBorder 3s infinite alternate;
         }
 
-        @keyframes borderGlow {
-            0% { border-color: #ff0000; box-shadow: 0 0 20px #ff0000; }
-            33% { border-color: #00ff00; box-shadow: 0 0 20px #00ff00; }
-            66% { border-color: #0000ff; box-shadow: 0 0 20px #0000ff; }
-            100% { border-color: #ff00ff; box-shadow: 0 0 20px #ff00ff; }
+        @keyframes rgbBorder {
+            0% { border-color: #ff0000; box-shadow: 0 5px 15px #ff0000; }
+            50% { border-color: #00ff00; box-shadow: 0 5px 15px #00ff00; }
+            100% { border-color: #0000ff; box-shadow: 0 5px 15px #0000ff; }
         }
 
-        /* Gambar Hacker */
-        .profile-img {
-            width: 150px;
-            height: 150px;
+        h1.logo {
+            font-size: 3rem;
+            margin: 0;
+            letter-spacing: 10px;
+            color: #fff;
+            text-shadow: 3px 3px var(--accent);
+        }
+
+        /* Form Verifikasi */
+        .v-form {
+            padding: 20px;
+            display: block;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: #111;
+            border: 1px solid var(--primary);
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .btn-verif {
+            background: var(--primary);
+            color: black;
+            font-weight: bold;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Profil Section */
+        .profile-header {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .p-img {
+            width: 100px; height: 100px;
             border-radius: 50%;
-            border: 3px solid #fff;
-            margin-bottom: 15px;
-            box-shadow: 0 0 15px #fff;
-            object-fit: cover;
+            border: 3px solid var(--accent);
+            box-shadow: var(--rgb-glow);
         }
 
-        h1 {
-            font-size: 2rem;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            margin: 10px 0;
-            text-shadow: 2px 2px #ff0000;
-        }
+        .name-1 { font-size: 1.5rem; font-weight: bold; margin: 0; }
+        .name-2 { font-size: 0.8rem; color: #888; margin-top: 5px; }
+        .verified-badge { color: #1da1f2; font-size: 1.2rem; }
 
-        .description {
-            font-size: 0.9rem;
-            color: #ccc;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        /* Badge Fitur */
-        .status-box {
+        .stats-row {
             display: flex;
             justify-content: space-around;
             margin: 20px 0;
-        }
-
-        .status {
-            background: #111;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #00ff00;
-            font-weight: bold;
-            font-size: 0.8rem;
-        }
-
-        .online-dot {
-            color: #00ff00;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
-        /* Footer */
-        .footer {
-            margin-top: 30px;
-            font-size: 0.7rem;
-            color: #555;
             border-top: 1px solid #333;
             padding-top: 10px;
         }
 
-        .highlight-text {
-            color: #fff;
-            font-weight: bold;
+        .stat-item { text-align: center; }
+        .stat-num { display: block; font-weight: bold; font-size: 1.2rem; }
+
+        /* Feed Beranda */
+        .video-card {
+            width: 100%;
+            background: #000;
+            margin-bottom: 20px;
+            position: relative;
         }
+
+        .video-placeholder {
+            width: 100%;
+            height: 400px;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .interaction-bar {
+            position: absolute;
+            right: 10px;
+            bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Navigation Bottom */
+        .nav-bottom {
+            position: fixed;
+            bottom: 0;
+            width: 500px;
+            max-width: 100%;
+            background: #000;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 2px solid var(--accent);
+        }
+
+        .nav-item { cursor: pointer; color: #fff; font-size: 0.7rem; text-align: center; }
+
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <img src="https://img.freepik.com/premium-photo/hacker-with-hoodie-digital-art-style_950002-31139.jpg" alt="Hacker" class="profile-img">
-        
-        <h1>WEBSITE MARCEL</h1>
-        
-        <p class="description">
-            HALLO. SELAMAT DATANG DI WEBSITE RESMI KAMI <br>
-            DAN JANGAN LUPA SHARE TERIMAKASIH
-        </p>
+    <div class="matrix-bg"></div>
 
-        <div class="status-box">
-            <div class="status">
-                [<span class="online-dot">●</span> WEBSITE ONLINE]
-            </div>
-            <div class="status">
-                [PLAYERS ONLINE: <span id="playerCount">0</span>]
+    <div class="main-app">
+        <header>
+            <h1 class="logo">MARCEL</h1>
+            <p style="font-size: 0.7rem;">WEBSITE • RESMI • OLEH • OWNERS • MARCEL • INDONESIA</p>
+        </header>
+
+        <div id="section-verif" class="v-form">
+            <h3 style="color:var(--accent)">[VERIFIKASI AKUN]</h3>
+            <input type="text" id="v-nama-real" placeholder="NAMA REAL LIFE">
+            <input type="number" id="v-nomor" placeholder="NOMOR (RAHASIA)">
+            <input type="password" id="v-pass" placeholder="PASSWORD (RAHASIA)">
+            <input type="text" id="v-alamat" placeholder="ALAMAT">
+            <input type="number" id="v-umur" placeholder="UMUR">
+            <select id="v-gender">
+                <option value="Cewek">Cewek</option>
+                <option value="Cowok">Cowok</option>
+            </select>
+            <button class="btn-verif" onclick="prosesVerifikasi()">DAFTAR & VERIFIKASI SEKARANG</button>
+        </div>
+
+        <div id="section-home" class="hidden">
+            <div class="video-card">
+                <div class="video-placeholder">
+                    <span style="color: #444;">VIDEO UPLOADED #1</span>
+                </div>
+                <div class="interaction-bar">
+                    <span>❤️ <br> <small id="count-like">0</small></span>
+                    <span>💬 <br> <small>0</small></span>
+                    <span>⭐ <br> <small>0</small></span>
+                    <span>🔗</span>
+                </div>
+                <div style="padding: 10px;">
+                    <b>Asep#8383884 <span class="verified-badge">✓</span></b>
+                    <p>Contoh video fyp hacker marcel...</p>
+                </div>
             </div>
         </div>
 
-        <div class="footer">
-            WEBSITE • RESMI • OLEH • <span class="highlight-text">OWNERS • MARCEL • INDONESIA</span>
+        <div id="section-profile" class="hidden">
+            <div class="profile-header">
+                <img src="https://img.freepik.com/premium-photo/hacker-with-hoodie-digital-art-style_950002-31139.jpg" class="p-img">
+                <p id="p-nama-1" class="name-1">Memuat...</p>
+                <p id="p-nama-2" class="name-2">@user#0000</p>
+                <p id="p-desc" style="font-size: 0.8rem;">Hallo, selamat datang di profil saya!</p>
+                
+                <div class="stats-row">
+                    <div class="stat-item"><span class="stat-num" id="stat-follow">0</span><small>Mengikuti</small></div>
+                    <div class="stat-item"><span class="stat-num" id="stat-follower">0</span><small>Pengikut</small></div>
+                    <div class="stat-item"><span class="stat-num" id="stat-like">0</span><small>Like</small></div>
+                </div>
+
+                <button class="btn-verif" style="background:#222; color:white; border:1px solid #555;">EDIT PROFIL</button>
+            </div>
+
+            <div style="display:flex; justify-content: space-around; border-top:1px solid #333; padding: 10px;">
+                <span>🎬</span><span>🔒</span><span>🔄</span><span>🔖</span><span>❤️</span>
+            </div>
         </div>
+
+        <nav class="nav-bottom">
+            <div class="nav-item" onclick="showSection('home')">🏠<br>Beranda</div>
+            <div class="nav-item">👥<br>Teman</div>
+            <div class="nav-item" style="font-size:1.5rem">➕</div>
+            <div class="nav-item">💬<br>Global</div>
+            <div class="nav-item" onclick="showSection('profile')">👤<br>Profil</div>
+        </nav>
     </div>
 
     <script>
-        // System Otomatis Player Online
-        function updatePlayers() {
-            const playerElement = document.getElementById('playerCount');
-            
-            // Logika sederhana: Jika tab dibuka, hitung sebagai 1. 
-            // Untuk sistem nyata dengan banyak orang, diperlukan database/backend.
-            // Di sini kita buat simulasi "Live" agar terlihat keren:
-            let currentPlayers = sessionStorage.getItem('isOnline') ? 1 : 0;
-            
-            if (!sessionStorage.getItem('isOnline')) {
-                sessionStorage.setItem('isOnline', 'true');
-                currentPlayers = 1;
-            }
+        let userData = JSON.parse(localStorage.getItem('user_marcel')) || null;
 
-            playerElement.innerText = currentPlayers;
+        function showSection(name) {
+            if(!userData) {
+                alert("Silahkan Verifikasi Terlebih Dahulu!");
+                return;
+            }
+            document.getElementById('section-home').classList.add('hidden');
+            document.getElementById('section-profile').classList.add('hidden');
+            document.getElementById('section-verif').classList.add('hidden');
+
+            if(name === 'home') document.getElementById('section-home').classList.remove('hidden');
+            if(name === 'profile') {
+                loadProfileData();
+                document.getElementById('section-profile').classList.remove('hidden');
+            }
         }
 
-        // Jalankan saat web dibuka
-        window.onload = updatePlayers;
+        function prosesVerifikasi() {
+            const namaReal = document.getElementById('v-nama-real').value;
+            const alamat = document.getElementById('v-alamat').value;
+            const gender = document.getElementById('v-gender').value;
+            const umur = document.getElementById('v-umur').value;
 
-        // Saat web ditutup/refresh (Simulasi Reset)
-        window.onbeforeunload = function() {
-            // Dalam environment web browser biasa, ini akan reset saat tab benar-benar ditutup
-            sessionStorage.removeItem('isOnline');
-        };
+            if(!namaReal || !alamat) return alert("Isi semua data!");
+
+            const randomID = Math.floor(Math.random() * 900000000) + 100000000;
+            const systemTag = "#" + (Math.floor(Math.random() * 900000) + 100000);
+
+            userData = {
+                nama: namaReal,
+                tag: systemTag,
+                id: randomID,
+                gender: gender,
+                alamat: alamat,
+                umur: umur,
+                stats: { follow: 0, follower: 0, likes: 0 }
+            };
+
+            localStorage.setItem('user_marcel', JSON.stringify(userData));
+            alert("Verifikasi Berhasil! ID Anda: " + randomID);
+            showSection('profile');
+        }
+
+        function loadProfileData() {
+            if(userData) {
+                document.getElementById('p-nama-1').innerText = userData.nama;
+                document.getElementById('p-nama-2').innerText = userData.nama.toLowerCase() + userData.tag;
+                document.getElementById('stat-follow').innerText = userData.stats.follow;
+                document.getElementById('stat-follower').innerText = userData.stats.follower;
+                document.getElementById('stat-like').innerText = formatAngka(userData.stats.likes);
+            }
+        }
+
+        function formatAngka(num) {
+            return num >= 1000 ? (num/1000).toFixed(1) + 'k' : num;
+        }
+
+        // Jalankan pengecekan awal
+        if(userData) {
+            showSection('profile');
+        }
     </script>
 </body>
 </html>
