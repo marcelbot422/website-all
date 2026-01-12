@@ -3,168 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Go - One-Time Verification</title>
+    <title>WEBSITE MARCEL | Official</title>
     <style>
-        :root { --primary: #fe2c55; --bg: #000; --gray: #8a8a8a; }
-        body { margin: 0; background-color: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; }
-        .app-container { width: 100%; max-width: 450px; height: 100vh; position: relative; overflow: hidden; border: 1px solid #333; }
-        
-        /* Pages */
-        .page { display: none; height: calc(100vh - 60px); overflow-y: auto; width: 100%; }
-        .page.active { display: block; }
-        .flex-center { display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column; }
+        /* Dasar & Tema Gelap */
+        body {
+            background-color: #0a0a0a;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
 
-        /* Profile Header */
-        .profile-header { text-align: center; padding: 20px 0; }
-        .profile-pic { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; background: #333; }
-        
-        /* Navbar */
-        .nav-bar { position: absolute; bottom: 0; width: 100%; height: 60px; background: #000; display: flex; justify-content: space-around; align-items: center; border-top: 0.5px solid #333; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; color: var(--gray); font-size: 10px; flex: 1; }
-        .nav-item.active { color: white; }
-        .add-btn { background: linear-gradient(to right, #69C9D0, #EE1D52); padding: 2px 12px; border-radius: 8px; color: black; font-weight: bold; font-size: 18px; }
+        /* Bingkai Bersinar (RGB Border) */
+        .container {
+            position: relative;
+            width: 90%;
+            max-width: 500px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 20px #00ff00, inset 0 0 10px #00ff00;
+            animation: borderGlow 5s infinite alternate;
+        }
 
-        /* Auth Overlay */
-        .overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; flex-direction: column; align-items: center; justify-content: center; padding: 30px; box-sizing: border-box; }
-        input { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 8px; margin-bottom: 15px; }
-        .btn-main { width: 100%; padding: 12px; background: var(--primary); border: none; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; }
-        .error-msg { color: var(--primary); font-size: 12px; margin-bottom: 10px; display: none; }
+        @keyframes borderGlow {
+            0% { border-color: #ff0000; box-shadow: 0 0 20px #ff0000; }
+            33% { border-color: #00ff00; box-shadow: 0 0 20px #00ff00; }
+            66% { border-color: #0000ff; box-shadow: 0 0 20px #0000ff; }
+            100% { border-color: #ff00ff; box-shadow: 0 0 20px #ff00ff; }
+        }
+
+        /* Gambar Hacker */
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            margin-bottom: 15px;
+            box-shadow: 0 0 15px #fff;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin: 10px 0;
+            text-shadow: 2px 2px #ff0000;
+        }
+
+        .description {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        /* Badge Fitur */
+        .status-box {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .status {
+            background: #111;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #00ff00;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .online-dot {
+            color: #00ff00;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 30px;
+            font-size: 0.7rem;
+            color: #555;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+
+        .highlight-text {
+            color: #fff;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <div id="page-home" class="page active">
-        <div class="flex-center"><h2>Beranda TikTok Go</h2></div>
-    </div>
+    <div class="container">
+        <img src="https://img.freepik.com/premium-photo/hacker-with-hoodie-digital-art-style_950002-31139.jpg" alt="Hacker" class="profile-img">
+        
+        <h1>WEBSITE MARCEL</h1>
+        
+        <p class="description">
+            HALLO. SELAMAT DATANG DI WEBSITE RESMI KAMI <br>
+            DAN JANGAN LUPA SHARE TERIMAKASIH
+        </p>
 
-    <div id="page-friends" class="page">
-        <div class="flex-center"><h2>Halaman Teman</h2></div>
-    </div>
-
-    <div id="page-inbox" class="page">
-        <div class="flex-center"><h2>Kotak Masuk</h2></div>
-    </div>
-
-    <div id="page-profile" class="page">
-        <div class="profile-header">
-            <img src="https://via.placeholder.com/90" id="display-pic" class="profile-pic">
-            <h4 id="user-display-name">@username</h4>
-            <p id="user-display-email" style="font-size: 12px; color: var(--gray);"></p>
-            <div style="padding: 20px;">
-                <button class="btn-main" style="background:#333" onclick="logout()">Logout</button>
+        <div class="status-box">
+            <div class="status">
+                [<span class="online-dot">●</span> WEBSITE ONLINE]
             </div>
+            <div class="status">
+                [PLAYERS ONLINE: <span id="playerCount">0</span>]
+            </div>
+        </div>
+
+        <div class="footer">
+            WEBSITE • RESMI • OLEH • <span class="highlight-text">OWNERS • MARCEL • INDONESIA</span>
         </div>
     </div>
 
-    <div class="nav-bar">
-        <div class="nav-item active" onclick="switchPage('home', this)"><i>🏠</i>Beranda</div>
-        <div class="nav-item" onclick="switchPage('friends', this)"><i>👥</i>Teman</div>
-        <div class="nav-item"><i><span class="add-btn">+</span></i></div>
-        <div class="nav-item" onclick="switchPage('inbox', this)"><i>💬</i>Kotak Masuk</div>
-        <div class="nav-item" onclick="handleProfileClick(this)"><i>👤</i>Profil</div>
-    </div>
-
-    <div id="register-overlay" class="overlay">
-        <h2 id="auth-title">Verifikasi Perangkat</h2>
-        <p style="font-size: 12px; color: var(--gray); text-align: center; margin-bottom: 20px;">
-            Sistem TikTok Go mendeteksi 1 akun per perangkat.
-        </p>
-        
-        <p id="error-block" class="error-msg">⚠️ Perangkat ini sudah terdaftar dengan akun lain!</p>
-        
-        <input type="email" id="reg-email" placeholder="Email">
-        <input type="password" id="reg-pass" placeholder="Password">
-        
-        <button id="btn-verify" class="btn-main" onclick="processRegister()">Verifikasi & Daftar</button>
-        <p onclick="closeAuth()" style="color:var(--gray); margin-top:20px; cursor:pointer; font-size: 12px;">Batal</p>
-    </div>
-</div>
-
-<script>
-    let currentUser = JSON.parse(localStorage.getItem('registeredUser'));
-
-    // Cek saat pertama kali buka apakah sudah login
-    window.onload = function() {
-        if(currentUser) {
-            console.log("Perangkat terverifikasi untuk: " + currentUser.email);
-        }
-    };
-
-    function switchPage(pageId, element) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById('page-' + pageId).classList.add('active');
-        element.classList.add('active');
-    }
-
-    function handleProfileClick(element) {
-        if (!sessionStorage.getItem('isLoggedIn')) {
-            document.getElementById('register-overlay').style.display = 'flex';
-            checkExistingUser();
-        } else {
-            loadProfileData();
-            switchPage('profile', element);
-        }
-    }
-
-    function checkExistingUser() {
-        if(currentUser) {
-            // Jika sudah ada akun di memori, kunci input kecuali untuk akun tersebut
-            document.getElementById('auth-title').innerText = "Login Akun Terverifikasi";
-            document.getElementById('btn-verify').innerText = "Masuk";
-        }
-    }
-
-    function processRegister() {
-        const email = document.getElementById('reg-email').value;
-        const pass = document.getElementById('reg-pass').value;
-        const errorBlock = document.getElementById('error-block');
-
-        if(!email || !pass) {
-            alert("Harap isi semua kolom!");
-            return;
-        }
-
-        if(currentUser) {
-            // Jika sudah ada data di memori, cek apakah yang diinput sama
-            if(email === currentUser.email && pass === currentUser.pass) {
-                loginSuccess();
-            } else {
-                errorBlock.style.display = 'block';
-                errorBlock.innerText = "⚠️ Perangkat ini hanya untuk akun: " + currentUser.email;
+    <script>
+        // System Otomatis Player Online
+        function updatePlayers() {
+            const playerElement = document.getElementById('playerCount');
+            
+            // Logika sederhana: Jika tab dibuka, hitung sebagai 1. 
+            // Untuk sistem nyata dengan banyak orang, diperlukan database/backend.
+            // Di sini kita buat simulasi "Live" agar terlihat keren:
+            let currentPlayers = sessionStorage.getItem('isOnline') ? 1 : 0;
+            
+            if (!sessionStorage.getItem('isOnline')) {
+                sessionStorage.setItem('isOnline', 'true');
+                currentPlayers = 1;
             }
-        } else {
-            // Verifikasi pertama kali (Simpan ke memory permanen)
-            const newUser = { email: email, pass: pass };
-            localStorage.setItem('registeredUser', JSON.stringify(newUser));
-            currentUser = newUser;
-            alert("Verifikasi Berhasil! Perangkat ini sekarang terkunci untuk akun ini.");
-            loginSuccess();
+
+            playerElement.innerText = currentPlayers;
         }
-    }
 
-    function loginSuccess() {
-        sessionStorage.setItem('isLoggedIn', 'true');
-        document.getElementById('register-overlay').style.display = 'none';
-        loadProfileData();
-        switchPage('profile', document.querySelector('.nav-item:last-child'));
-    }
+        // Jalankan saat web dibuka
+        window.onload = updatePlayers;
 
-    function loadProfileData() {
-        document.getElementById('user-display-email').innerText = currentUser.email;
-        document.getElementById('user-display-name').innerText = "@" + currentUser.email.split('@')[0];
-    }
-
-    function logout() {
-        sessionStorage.removeItem('isLoggedIn');
-        location.reload(); // Refresh untuk kembali ke kondisi awal
-    }
-
-    function closeAuth() {
-        document.getElementById('register-overlay').style.display = 'none';
-    }
-</script>
-
+        // Saat web ditutup/refresh (Simulasi Reset)
+        window.onbeforeunload = function() {
+            // Dalam environment web browser biasa, ini akan reset saat tab benar-benar ditutup
+            sessionStorage.removeItem('isOnline');
+        };
+    </script>
 </body>
 </html>
