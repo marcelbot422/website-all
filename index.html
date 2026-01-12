@@ -3,282 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MARCEL | Digital Community</title>
+    <title>WEBSITE MARCEL | Official</title>
     <style>
-        :root {
-            --hacker-green: #00ff00;
-            --hacker-pink: #ff00ff;
-            --hacker-blue: #00ffff;
-            --dark: #050505;
-        }
-
+        /* Dasar & Tema Gelap */
         body {
-            background-color: var(--dark);
-            color: white;
-            font-family: 'Courier New', sans-serif;
-            margin: 0;
+            background-color: #0a0a0a;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
             display: flex;
             justify-content: center;
-        }
-
-        /* Container Utama */
-        .app-container {
-            width: 100%;
-            max-width: 500px;
+            align-items: center;
             min-height: 100vh;
-            background: rgba(0,0,0,0.9);
-            border: 2px solid var(--hacker-green);
-            box-shadow: 0 0 15px var(--hacker-green);
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Bingkai Bersinar (RGB Border) */
+        .container {
             position: relative;
-            padding-bottom: 80px;
-        }
-
-        /* Header Glowing */
-        header {
+            width: 90%;
+            max-width: 500px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 30px;
+            border-radius: 15px;
             text-align: center;
-            padding: 15px;
-            border-bottom: 2px solid var(--hacker-pink);
-            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.3);
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 20px #00ff00, inset 0 0 10px #00ff00;
+            animation: borderGlow 5s infinite alternate;
         }
 
-        .logo { font-size: 2.5rem; font-weight: bold; letter-spacing: 8px; margin: 0; }
-
-        /* Fitur Chat Global */
-        #section-chat {
-            padding: 10px;
-            height: 70vh;
-            display: flex;
-            flex-direction: column;
+        @keyframes borderGlow {
+            0% { border-color: #ff0000; box-shadow: 0 0 20px #ff0000; }
+            33% { border-color: #00ff00; box-shadow: 0 0 20px #00ff00; }
+            66% { border-color: #0000ff; box-shadow: 0 0 20px #0000ff; }
+            100% { border-color: #ff00ff; box-shadow: 0 0 20px #ff00ff; }
         }
 
-        .chat-box {
-            flex: 1;
-            overflow-y: auto;
-            border: 1px solid #333;
-            padding: 10px;
-            margin-bottom: 10px;
-            background: #0a0a0a;
+        /* Gambar Hacker */
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            margin-bottom: 15px;
+            box-shadow: 0 0 15px #fff;
+            object-fit: cover;
         }
 
-        .bubble {
-            background: #111;
-            border-left: 3px solid var(--hacker-blue);
+        h1 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
             margin: 10px 0;
-            padding: 8px;
-            border-radius: 0 10px 10px 0;
+            text-shadow: 2px 2px #ff0000;
         }
 
-        .bubble b { font-size: 0.8rem; color: var(--hacker-green); }
-
-        .chat-input-area { display: flex; gap: 5px; }
-
-        /* Upload Video Area */
-        .upload-zone {
-            padding: 20px;
-            text-align: center;
-            border: 2px dashed var(--hacker-blue);
-            margin: 20px;
+        .description {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.5;
         }
 
-        .progress-bar {
-            width: 0%;
-            height: 10px;
-            background: var(--hacker-green);
-            margin-top: 10px;
-            transition: 0.3s;
-        }
-
-        /* Profile & Stats */
-        .profile-card { text-align: center; padding: 20px; }
-        .p-img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--hacker-green); }
-        .stat-box { display: flex; justify-content: space-around; margin: 15px 0; font-size: 0.9rem; }
-        .stat-box div { text-align: center; }
-        .blue-tick { color: #1da1f2; }
-
-        /* Navigation */
-        .nav-bar {
-            position: fixed;
-            bottom: 0;
-            width: 500px;
-            max-width: 100%;
-            background: #000;
+        /* Badge Fitur */
+        .status-box {
             display: flex;
             justify-content: space-around;
-            padding: 15px 0;
-            border-top: 2px solid var(--hacker-pink);
+            margin: 20px 0;
         }
 
-        .nav-btn { cursor: pointer; font-size: 1.2rem; }
-        .hidden { display: none; }
-        
-        button {
-            background: var(--hacker-green);
-            border: none;
-            padding: 8px;
-            cursor: pointer;
+        .status {
+            background: #111;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #00ff00;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .online-dot {
+            color: #00ff00;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 30px;
+            font-size: 0.7rem;
+            color: #555;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+
+        .highlight-text {
+            color: #fff;
             font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <header>
-            <h1 class="logo">MARCEL</h1>
-            <small>WEBSITE • RESMI • OLEH • OWNERS • MARCEL • INDONESIA</small>
-        </header>
+    <div class="container">
+        <img src="https://img.freepik.com/premium-photo/hacker-with-hoodie-digital-art-style_950002-31139.jpg" alt="Hacker" class="profile-img">
+        
+        <h1>WEBSITE MARCEL</h1>
+        
+        <p class="description">
+            HALLO. SELAMAT DATANG DI WEBSITE RESMI KAMI <br>
+            DAN JANGAN LUPA SHARE TERIMAKASIH
+        </p>
 
-        <div id="home" class="content">
-            <div style="padding: 15px; border-bottom: 1px solid #222;">
-                <b id="video-owner">Asep#8383884 <span class="blue-tick">✓</span></b>
-                <div style="height: 300px; background: #111; margin: 10px 0; display: flex; align-items: center; justify-content: center;">
-                    [ VIDEO FYP ]
-                </div>
-                <div style="display:flex; gap: 20px;">
-                    <span onclick="addLike()" style="cursor:pointer">❤️ <span id="like-count">0</span></span>
-                    <span onclick="follow()" id="follow-btn" style="cursor:pointer">➕ Ikuti</span>
-                </div>
+        <div class="status-box">
+            <div class="status">
+                [<span class="online-dot">●</span> WEBSITE ONLINE]
+            </div>
+            <div class="status">
+                [PLAYERS ONLINE: <span id="playerCount">0</span>]
             </div>
         </div>
 
-        <div id="chat" class="content hidden">
-            <h3 style="text-align:center; color: var(--hacker-blue);">CHAT GLOBAL</h3>
-            <div class="chat-box" id="chat-messages">
-                <div class="bubble"><b>System:</b> Selamat datang di Chat Global Marcel!</div>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" id="msg-input" placeholder="Ketik pesan...">
-                <button onclick="sendMessage()">KIRIM</button>
-            </div>
-        </div>
-
-        <div id="upload" class="content hidden">
-            <div class="upload-zone">
-                <h3>UPLOAD VIDEO</h3>
-                <input type="file" id="file-input" accept="video/*">
-                <button onclick="startUpload()" style="margin-top:10px;">MULAI UPLOAD</button>
-                <div id="prog-container" class="hidden">
-                    <p id="prog-text">0%</p>
-                    <div class="progress-bar" id="bar"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="profile" class="content hidden">
-            <div class="profile-card">
-                <img src="https://img.freepik.com/premium-photo/hacker-with-hoodie-digital-art-style_950002-31139.jpg" class="p-img">
-                <h2 id="name-top" style="margin:5px 0;">NAMA USER</h2>
-                <span id="name-tag" style="color:#777;">@user#0000</span>
-                
-                <div class="stat-box">
-                    <div><b id="p-mengikuti">0</b><br>Mengikuti</div>
-                    <div><b id="p-pengikut">0</b><br>Pengikut</div>
-                    <div><b id="p-likes">0</b><br>Like</div>
-                </div>
-                
-                <button onclick="alert('Masuk ke mode edit...')">EDIT PROFIL</button>
-                <hr style="border: 0.5px solid #222; margin: 20px 0;">
-                <div style="display:flex; justify-content: space-around;">
-                    <span>🎥</span><span>🔒</span><span>🔄</span><span>❤️</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="nav-bar">
-            <div class="nav-btn" onclick="nav('home')">🏠</div>
-            <div class="nav-btn" onclick="nav('chat')">💬</div>
-            <div class="nav-btn" onclick="nav('upload')">➕</div>
-            <div class="nav-btn" onclick="nav('profile')">👤</div>
+        <div class="footer">
+            WEBSITE • RESMI • OLEH • <span class="highlight-text">OWNERS • MARCEL • INDONESIA</span>
         </div>
     </div>
 
     <script>
-        // Data Global (Simulasi Database)
-        let myData = {
-            nama: "Marcel User",
-            tag: "#" + Math.floor(100000 + Math.random() * 900000),
-            id: Math.floor(Math.random() * 100000000),
-            following: 0,
-            followers: 0,
-            likes: 0,
-            isFollowing: false
-        };
-
-        // Fungsi Navigasi
-        function nav(target) {
-            document.querySelectorAll('.content').forEach(c => c.classList.add('hidden'));
-            document.getElementById(target).classList.remove('hidden');
-            if(target === 'profile') updateProfileUI();
-        }
-
-        // Fungsi Like Otomatis
-        let currentLikes = 0;
-        function addLike() {
-            currentLikes++;
-            document.getElementById('like-count').innerText = currentLikes >= 1000 ? (currentLikes/1000).toFixed(1) + 'k' : currentLikes;
-            myData.likes++;
-        }
-
-        // Fungsi Follow Otomatis
-        function follow() {
-            const btn = document.getElementById('follow-btn');
-            if(!myData.isFollowing) {
-                myData.following = 1;
-                btn.innerText = "✅ Mengikuti";
-                btn.style.color = "var(--hacker-green)";
-                myData.isFollowing = true;
-            } else {
-                myData.following = 0;
-                btn.innerText = "➕ Ikuti";
-                btn.style.color = "white";
-                myData.isFollowing = false;
-            }
-        }
-
-        // Fungsi Chat
-        function sendMessage() {
-            const input = document.getElementById('msg-input');
-            const box = document.getElementById('chat-messages');
-            if(input.value.trim() !== "") {
-                const msg = document.createElement('div');
-                msg.className = "bubble";
-                msg.innerHTML = `<b>${myData.nama}${myData.tag}:</b> ${input.value}`;
-                box.appendChild(msg);
-                input.value = "";
-                box.scrollTop = box.scrollHeight;
-            }
-        }
-
-        // Fungsi Upload Simulasi
-        function startUpload() {
-            const container = document.getElementById('prog-container');
-            const bar = document.getElementById('bar');
-            const txt = document.getElementById('prog-text');
-            container.classList.remove('hidden');
+        // System Otomatis Player Online
+        function updatePlayers() {
+            const playerElement = document.getElementById('playerCount');
             
-            let width = 0;
-            let interval = setInterval(() => {
-                if(width >= 100) {
-                    clearInterval(interval);
-                    alert("Video Berhasil Diposting ke Beranda & Profil!");
-                } else {
-                    width++;
-                    bar.style.width = width + '%';
-                    txt.innerText = width + '%';
-                }
-            }, 50);
+            // Logika sederhana: Jika tab dibuka, hitung sebagai 1. 
+            // Untuk sistem nyata dengan banyak orang, diperlukan database/backend.
+            // Di sini kita buat simulasi "Live" agar terlihat keren:
+            let currentPlayers = sessionStorage.getItem('isOnline') ? 1 : 0;
+            
+            if (!sessionStorage.getItem('isOnline')) {
+                sessionStorage.setItem('isOnline', 'true');
+                currentPlayers = 1;
+            }
+
+            playerElement.innerText = currentPlayers;
         }
 
-        // Update Tampilan Profil
-        function updateProfileUI() {
-            document.getElementById('name-top').innerText = myData.nama;
-            document.getElementById('name-tag').innerText = "@" + myData.nama.toLowerCase().replace(" ", "") + myData.tag;
-            document.getElementById('p-mengikuti').innerText = myData.following;
-            document.getElementById('p-likes').innerText = currentLikes;
-        }
+        // Jalankan saat web dibuka
+        window.onload = updatePlayers;
 
-        // Inisialisasi
-        updateProfileUI();
+        // Saat web ditutup/refresh (Simulasi Reset)
+        window.onbeforeunload = function() {
+            // Dalam environment web browser biasa, ini akan reset saat tab benar-benar ditutup
+            sessionStorage.removeItem('isOnline');
+        };
     </script>
 </body>
 </html>
